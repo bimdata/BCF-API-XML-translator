@@ -1,0 +1,3 @@
+[submodule "BCF-XML"]
+	path = BCF-XML
+	url = https://github.com/buildingSMART/BCF-XML.git

@@ -1,0 +1,16 @@
+[{
+  "guid": "f79cd5d7-dd05-4614-9b0b-b9031910f89d",
+  "creation_date": "2019-01-31T16:06:18Z",
+  "creation_author": "test@test.com)",
+  "modified_date": "2019-01-31T16:06:18Z",
+  "modified_author": "test@test.com)",
+  "title": "test title",
+  "description": "test description",
+  "reference_links": ["http://building.com", "/var/data/some_file", "Z:\\shared_data\\file.zip"],
+  "labels": ["west", "roof", "stuff"],
+  "topic_type": "Test type",
+  "topic_status": "NEGATIVE",
+  "stage": "EXE",
+  "priority": "LOW",
+  "index": 58
+}]

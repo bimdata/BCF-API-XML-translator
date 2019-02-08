@@ -1,19 +1,27 @@
-import os.path as path
+import os
+import io
+import base64
+import zipfile
+from os import path
 from lxml import etree, builder
+from .models import Topic, Comment, VisualizationInfo
 
-SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "../BCF-XML/Schemas"))
-
-with open(path.join(SCHEMA_DIR, "markup.xsd"), "r") as file:
-    markup_schema = etree.XMLSchema(file=file)
-with open(path.join(SCHEMA_DIR, "project.xsd"), "r") as file:
-    project_schema = etree.XMLSchema(file=file)
-with open(path.join(SCHEMA_DIR, "version.xsd"), "r") as file:
-    version_schema = etree.XMLSchema(file=file)
-with open(path.join(SCHEMA_DIR, "visinfo.xsd"), "r") as file:
-    visinfo_schema = etree.XMLSchema(file=file)
+SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
 
-def is_valid_with_schema(schema_name, xml):
+def is_valid(schema_name, xml, raise_exception=False):
+    schema_path = path.join(SCHEMA_DIR, schema_name)
+    with open(schema_path, "r") as file:
+        schema = etree.XMLSchema(file=file)
+
+    if not schema.validate(xml):
+        if raise_exception:
+            raise BcfXmlException(schema.error_log)
+        else:
+            print(schema.error_log)
+        return False
+    return True
+
     schema_path = path.join(SCHEMA_DIR, schema_name)
     with open(schema_path, "r") as file:
         schema = etree.XMLSchema(file=file)
@@ -25,183 +33,77 @@ def is_valid_with_schema(schema_name, xml):
     return True
 
 
-def boolean_repr(value):
-    return "true" if value else "false"
-
-
-def format_topic(topic):
+def export_viewpoint(viewpoint, is_first):
     e = builder.ElementMaker()
-    xml_topic = e.Topic(
-        e.Title(topic["title"]),
-        e.Priority(topic["title"]),
-        e.Index(topic["title"]),
-        e.Labels(topic["title"]),
-        e.CreationDate(topic["title"]),
-        e.CreationAuthor(topic["title"]),
-        e.ModifiedDate(topic["title"]),
-        e.ModifiedAuthor(topic["title"]),
-        e.DueDate(topic["title"]),
-        e.AssignedTo(topic["title"]),
-        e.Description(topic["title"]),
-        e.Stage(topic["title"]),
-        Guid=topic["guid"],
-        TopicType=topic["topic_type"],
-        TopicStatus=topic["topic_status"],
-    )
-    return xml_topic
+    viewpoint_name = "viewpoint.bcfv" if is_first else (viewpoint["guid"] + ".bcfv")
+    snapshot_name = "snapshot.png" if is_first else (viewpoint["guid"] + ".png")
 
-
-def format_comment(comment):
-    e = builder.ElementMaker()
-    xml_comment = e.Comment(
-        e.Date(comment["date"]),
-        e.Author(comment["author"]),
-        e.Comment(comment["comment"]),
-        e.ModifiedDate(comment["modified_date"]),
-        e.ModifiedAuthor(comment["modified_author"]),
-        e.Viewpoint(Guid=comment["viewpoint_guid"]),
-    )
-    return xml_comment
-
-
-def format_component(component):
-    e = builder.ElementMaker()
-    return e.Component(IfcGuid=component["ifc_guid"])
-
-
-def format_viewpoint(viewpoint):
-    e = builder.ElementMaker()
-
-    orthogonal_camera = viewpoint["orthogonal_camera"]
-    xml_ortogonal_camera = e.OrthogonalCamera(
-        e.CameraViewPoint(
-            e.X(str(orthogonal_camera["camera_view_point"]["x"])),
-            e.Y(str(orthogonal_camera["camera_view_point"]["y"])),
-            e.Z(str(orthogonal_camera["camera_view_point"]["z"])),
-        ),
-        e.CameraDirection(
-            e.X(str(orthogonal_camera["camera_direction"]["x"])),
-            e.Y(str(orthogonal_camera["camera_direction"]["y"])),
-            e.Z(str(orthogonal_camera["camera_direction"]["z"])),
-        ),
-        e.CameraUpVector(
-            e.X(str(orthogonal_camera["camera_up_vector"]["x"])),
-            e.Y(str(orthogonal_camera["camera_up_vector"]["y"])),
-            e.Z(str(orthogonal_camera["camera_up_vector"]["z"])),
-        ),
-        e.ViewToWorldScale(str(orthogonal_camera["view_to_world_scale"])),
-    )
-
-    perspective_camera = viewpoint["perspective_camera"]
-    xml_perspective_camera = e.PerspectiveCamera(
-        e.CameraViewPoint(
-            e.X(str(perspective_camera["camera_view_point"]["x"])),
-            e.Y(str(perspective_camera["camera_view_point"]["y"])),
-            e.Z(str(perspective_camera["camera_view_point"]["z"])),
-        ),
-        e.CameraDirection(
-            e.X(str(perspective_camera["camera_direction"]["x"])),
-            e.Y(str(perspective_camera["camera_direction"]["y"])),
-            e.Z(str(perspective_camera["camera_direction"]["z"])),
-        ),
-        e.CameraUpVector(
-            e.X(str(perspective_camera["camera_up_vector"]["x"])),
-            e.Y(str(perspective_camera["camera_up_vector"]["y"])),
-            e.Z(str(perspective_camera["camera_up_vector"]["z"])),
-        ),
-        e.FieldOfView(str(perspective_camera["field_of_view"])),
-    )
-
-    lines = viewpoint["lines"]
-    xml_lines = []
-    for line in lines:
-        xml_line = e.Line(
-            e.StartPoint(
-                e.X(str(line["start_point"]["x"])),
-                e.Y(str(line["start_point"]["y"])),
-                e.Z(str(line["start_point"]["z"])),
-            ),
-            e.EndPoint(
-                e.X(str(line["end_point"]["x"])),
-                e.Y(str(line["end_point"]["y"])),
-                e.Z(str(line["end_point"]["z"])),
-            ),
-        )
-        xml_lines.push(xml_line)
-
-    planes = viewpoint["clipping_planes"]
-    xml_planes = []
-    for plane in planes:
-        xml_plane = e.ClippingPlane(
-            e.Location(
-                e.X(str(plane["location"]["x"])),
-                e.Y(str(plane["location"]["y"])),
-                e.Z(str(plane["location"]["z"])),
-            ),
-            e.Direction(
-                e.X(str(plane["direction"]["x"])),
-                e.Y(str(plane["direction"]["y"])),
-                e.Z(str(plane["direction"]["z"])),
-            ),
-        )
-        xml_planes.push(xml_plane)
-
-    components = viewpoint["components"]
-
-    selections = components["selection"]
-    xml_selections = [format_component(selection) for selection in selections]
-
-    colorings = components["coloring"]
-    xml_colorings = []
-    for coloring in colorings:
-        xml_color = e.Color(
-            *[format_component(component) for component in coloring["components"]],
-            Color=coloring["color"],
-        )
-        xml_colorings.push(xml_color)
-
-    visibility = components["visibility"]
-    view_setup_hints = visibility["view_setup_hints"]
-
-    xml_view_setup_hints = e.ViewSetupHints(
-        SpacesVisible=boolean_repr(view_setup_hints["spaces_visible"]),
-        SpaceBoundariesVisible=boolean_repr(
-            view_setup_hints["space_boundaries_visible"]
-        ),
-        OpeningsVisible=boolean_repr(view_setup_hints["openings_visible"]),
-    )
-
-    exceptions = [format_component(component) for component in visibility["exceptions"]]
-    xml_visibility = e.Visibility(
-        e.Exceptions(*exceptions) if exceptions else "",
-        DefaultVisibility=boolean_repr(visibility["default_visibility"]),
-    )
-
-    xml_visinfo = e.VisualizationInfo(
-        e.Components(
-            xml_view_setup_hints,
-            e.Selection(*xml_selections),
-            xml_visibility,
-            e.Coloring(*xml_colorings) if xml_colorings else "",
-        ),
-        xml_ortogonal_camera,
-        xml_perspective_camera,
-        e.Lines(*xml_lines) if xml_lines else "",
-        e.ClippingPlanes(*xml_planes),
-        Guid=viewpoint["guid"],
-    )
-    is_valid_with_schema("visinfo.xsd", xml_visinfo)
-
-    xml_viewpoint = e.ViewPoint(
-        # e.Viewpoint(viewpoint["title"]),  # .bcfv file path
-        # e.Snapshot(viewpoint["title"]),  # .png file path
+    return e.Viewpoints(
+        e.Viewpoint(viewpoint_name),
+        e.Snapshot(snapshot_name),
         e.Index(str(viewpoint["index"])),
         Guid=viewpoint["guid"],
     )
-    return xml_viewpoint, xml_visinfo
 
 
-print(markup_schema)
-print(project_schema)
-print(version_schema)
-print(visinfo_schema)
+def export_markup(topic, comments, viewpoints):
+    e = builder.ElementMaker()
+    children = [Topic(topic).xml]
+
+    for comment in comments:
+        children.append(Comment(comment).xml)
+
+    for index, viewpoint in enumerate(viewpoints):
+        xml_viewpoint = export_viewpoint(viewpoint, index == 0)
+        children.append(xml_viewpoint)
+    xml_markup = e.Markup(*children)
+    is_valid("markup.xsd", xml_markup, raise_exception=True)
+    return xml_markup
+
+
+def write_xml(zf, path, xml):
+    data = etree.tostring(
+        xml, encoding="utf-8", pretty_print=True, xml_declaration=True
+    )
+    zf.writestr(path, data)
+
+
+def export_bcf_zip(topics, comments, viewpoints):
+    """
+    topics: list of topics (dict parsed from BCF-API json)
+    viewpoints: dict(topics_guid=[viewpoint])
+    comments: dict(topics_guid=[comment])
+    """
+    zip_file = io.BytesIO()
+    with zipfile.ZipFile(zip_file, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+        with open(path.join(SCHEMA_DIR, "bcf.version"), "rb") as version_file:
+            zf.writestr("bcf.version", version_file.read())
+
+        for topic in topics:
+            topic_guid = topic["guid"]
+            topic_comments = comments.get(topic_guid, [])
+            topic_viewpoints = viewpoints.get(topic_guid, [])
+            # 1 dossier par topic
+            topic_dir = topic_guid + "/"
+            zfi = zipfile.ZipInfo(topic_dir)
+            zf.writestr(zfi, "")  # create the directory in the zip
+
+            xml_markup = export_markup(topic, topic_comments, topic_viewpoints)
+            write_xml(zf, topic_dir + "markup.bcf", xml_markup)
+
+            for index, viewpoint in enumerate(topic_viewpoints):
+                xml_visinfo = VisualizationInfo(viewpoint).xml
+                viewpoint_name = (
+                    "viewpoint.bcfv" if index == 0 else (viewpoint["guid"] + ".bcfv")
+                )
+                write_xml(zf, topic_dir + viewpoint_name, xml_visinfo)
+                # snapshots
+                if viewpoint.get("snapshot"):
+                    snapshot_name = (
+                        "snapshot.png" if index == 0 else (viewpoint["guid"] + ".png")
+                    )
+                    snapshot = viewpoint.get("snapshot").get("snapshot_data")
+                    # Break out the header from the base64 content
+                    header, data = snapshot.split(";base64,")
+                    zf.writestr(topic_dir + snapshot_name, base64.b64decode(data))
+    return zip_file

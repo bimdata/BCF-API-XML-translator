@@ -42,7 +42,7 @@ def export_viewpoint(viewpoint, is_first):
         e.Viewpoint(viewpoint_name),
         e.Snapshot(snapshot_name),
         e.Index(str(viewpoint["index"])),
-        Guid=viewpoint["guid"],
+        Guid=str(viewpoint["guid"]),
     )
 
 

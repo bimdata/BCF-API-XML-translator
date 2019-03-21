@@ -16,38 +16,49 @@ class VisualizationInfo(JsonToXMLModel):
         viewpoint = self.json
         e = self.maker
 
-        xml_ortogonal_camera = OrthogonalCamera(viewpoint["orthogonal_camera"]).xml
-        xml_perspective_camera = PerspectiveCamera(viewpoint["perspective_camera"]).xml
+        children = []
+
+        components = viewpoint.get("components")
+        if components:
+            visibility = components["visibility"]
+
+            components_children = [ViewSetupHints(visibility["view_setup_hints"]).xml]
+
+            xml_selections = [
+                Component(selection).xml
+                for selection in components.get("selection", [])
+            ]
+            if xml_selections:
+                components_children.append(e.Selection(*xml_selections))
+
+            components_children.append(Visibility(visibility).xml)
+
+            xml_colorings = [
+                Color(coloring).xml for coloring in components.get("coloring", [])
+            ]
+            if xml_colorings:
+                components_children.append(e.Coloring(*xml_colorings))
+
+            children.append(e.Components(*components_children))
+
+        if viewpoint.get("orthogonal_camera"):
+            xml_ortogonal_camera = OrthogonalCamera(viewpoint["orthogonal_camera"]).xml
+            children.append(xml_ortogonal_camera)
+
+        if viewpoint.get("perspective_camera"):
+            xml_perspective_camera = PerspectiveCamera(
+                viewpoint["perspective_camera"]
+            ).xml
+            children.append(xml_perspective_camera)
 
         xml_lines = [Line(line).xml for line in viewpoint.get("lines", [])]
+        if xml_lines:
+            children.append(e.Lines(*xml_lines))
+
         xml_planes = [
             ClippingPlane(plane).xml for plane in viewpoint.get("clipping_planes", [])
         ]
-
-        components = viewpoint["components"]
-        selections = components["selection"]
-        xml_selections = [Component(selection).xml for selection in selections]
-
-        colorings = components["coloring"]
-        xml_colorings = [Color(coloring).xml for coloring in colorings]
-
-        visibility = components["visibility"]
-        xml_view_setup_hints = ViewSetupHints(visibility["view_setup_hints"]).xml
-
-        xml_visibility = Visibility(visibility).xml
-
-        components_children = [xml_view_setup_hints]
-        if xml_selections:
-            components_children.append(e.Selection(*xml_selections))
-        components_children.append(xml_visibility)
-        if xml_colorings:
-            components_children.append(e.Coloring(*xml_colorings))
-        xml_components = e.Components(*components_children)
-
-        children = [xml_components, xml_ortogonal_camera, xml_perspective_camera]
-        if xml_lines:
-            children.append(e.Lines(*xml_lines))
         if xml_planes:
             children.append(e.ClippingPlanes(*xml_planes))
 
-        return e.VisualizationInfo(*children, Guid=viewpoint["guid"])
+        return e.VisualizationInfo(*children, Guid=str(viewpoint["guid"]))

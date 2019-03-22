@@ -25,8 +25,9 @@ class VisualizationInfo(JsonToXMLModel):
             components_children = [ViewSetupHints(visibility["view_setup_hints"]).xml]
 
             xml_selections = [
-                Component(selection).xml
-                for selection in components.get("selection", [])
+                Component(component).xml
+                for component in components.get("selection", [])
+                if component.get("ifc_guid")
             ]
             if xml_selections:
                 components_children.append(e.Selection(*xml_selections))

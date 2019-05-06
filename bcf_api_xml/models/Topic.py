@@ -18,7 +18,7 @@ class Topic(JsonToXMLModel):
             children.append(e.Labels(label))
 
         children.append(e.CreationDate(topic["creation_date"]))
-        children.append(e.CreationAuthor(topic["creation_author"]))
+        children.append(e.CreationAuthor(topic.get("creation_author", "")))
         if topic.get("modified_date"):
             children.append(e.ModifiedDate(topic.get("modified_date")))
         if topic.get("modified_author"):

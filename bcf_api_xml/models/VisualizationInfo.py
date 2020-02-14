@@ -1,11 +1,13 @@
-from .models import JsonToXMLModel
-from .Component import Component
-from .OrthogonalCamera import OrthogonalCamera
-from .PerspectiveCamera import PerspectiveCamera
-from .Line import Line
-from .ClippingPlane import ClippingPlane
+from .models import JsonToXMLModel, XMLToJsonModel
+from .Component import Component, ComponentImport
+from .OrthogonalCamera import OrthogonalCamera, OrthogonalCameraImport
+from .PerspectiveCamera import PerspectiveCamera, PerspectiveCameraImport
+from .Line import Line, LineImport
+from .ClippingPlane import ClippingPlane, ClippingPlaneImport
 from .ViewSetupHints import ViewSetupHints
-from .Visibility import Visibility
+from .Visibility import Visibility, VisibilityImport
+from .Color import Color, ColorImport
+from .ViewSetupHints import ViewSetupHintsImport
 
 
 class VisualizationInfo(JsonToXMLModel):
@@ -18,8 +20,7 @@ class VisualizationInfo(JsonToXMLModel):
 
         children = []
 
-        components = viewpoint.get("components")
-        if components:
+        if (components := viewpoint.get("components")) is not None:
             visibility = components["visibility"]
 
             components_children = [ViewSetupHints(visibility["view_setup_hints"]).xml]
@@ -42,14 +43,12 @@ class VisualizationInfo(JsonToXMLModel):
 
             children.append(e.Components(*components_children))
 
-        if viewpoint.get("orthogonal_camera"):
-            xml_ortogonal_camera = OrthogonalCamera(viewpoint["orthogonal_camera"]).xml
+        if (orthogonal_camera := viewpoint.get("orthogonal_camera")) is not None:
+            xml_ortogonal_camera = OrthogonalCamera(orthogonal_camera).xml
             children.append(xml_ortogonal_camera)
 
-        if viewpoint.get("perspective_camera"):
-            xml_perspective_camera = PerspectiveCamera(
-                viewpoint["perspective_camera"]
-            ).xml
+        if (perspective_camera := viewpoint.get("perspective_camera")) is not None:
+            xml_perspective_camera = PerspectiveCamera(perspective_camera).xml
             children.append(xml_perspective_camera)
 
         xml_lines = [Line(line).xml for line in viewpoint.get("lines", [])]
@@ -63,3 +62,47 @@ class VisualizationInfo(JsonToXMLModel):
             children.append(e.ClippingPlanes(*xml_planes))
 
         return e.VisualizationInfo(*children, Guid=str(viewpoint["guid"]))
+
+
+class VisualizationInfoImport(XMLToJsonModel):
+    @property
+    def to_python(self):
+        viewpoint = {}
+        xml = self.xml
+
+        if (perspective_camera := xml.find("PerspectiveCamera")) is not None:
+            viewpoint["perspective_camera"] = PerspectiveCameraImport(
+                perspective_camera
+            ).to_python
+        if (orthogonal_camera := xml.find("OrthogonalCamera")) is not None:
+            viewpoint["orthogonal_camera"] = OrthogonalCameraImport(
+                orthogonal_camera
+            ).to_python
+
+        viewpoint["lines"] = [
+            LineImport(line.find("Line")).to_python for line in xml.findall("Lines")
+        ]
+        viewpoint["clipping_planes"] = [
+            ClippingPlaneImport(plane.find("ClippingPlane")).to_python
+            for plane in xml.findall("ClippingPlanes")
+        ]
+        if (components := xml.find("Components")) is not None:
+            viewpoint["components"] = {}
+            if (selection := components.find("Selection")) is not None:
+                viewpoint["components"]["selection"] = [
+                    ComponentImport(component).to_python
+                    for component in selection.findall("Component")
+                ]
+            if (visibility := components.find("Visibility")) is not None:
+                viewpoint["components"]["visibility"] = VisibilityImport(visibility).to_python
+                if (hints := components.find("ViewSetupHints")) is not None:
+                    viewpoint["components"]["visibility"][
+                        "view_setup_hints"
+                    ] = ViewSetupHintsImport(hints).to_python
+
+            if (colors := components.find("Coloring")) is not None:
+                viewpoint["components"]["coloring"] = [
+                    ColorImport(color).to_python for color in colors.findall("Color")
+                ]
+
+        return viewpoint

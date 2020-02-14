@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "bcf-api-xml"
+version = "0.2.0"
+description = "Convert BCF-API to BCF-XML"
+authors = ["Hugo Duroux <hugo@bimdata.io>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+lxml = "^4.5.0"
+generateDS = "^2.35.13"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.3.5"
+black = "^19.10b0"
+
+[tool.black]
+line-length = 95
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+

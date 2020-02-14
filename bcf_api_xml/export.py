@@ -1,10 +1,10 @@
-import os
 import io
 import base64
 import zipfile
 from os import path
 from lxml import etree, builder
-from .models import Topic, Comment, VisualizationInfo
+from bcf_api_xml.models import Topic, Comment, VisualizationInfo
+from bcf_api_xml.errors import InvalidBcf
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
@@ -16,7 +16,7 @@ def is_valid(schema_name, xml, raise_exception=False):
 
     if not schema.validate(xml):
         if raise_exception:
-            raise BcfXmlException(schema.error_log)
+            raise InvalidBcf(schema.error_log)
         else:
             print(schema.error_log)
         return False
@@ -62,9 +62,7 @@ def export_markup(topic, comments, viewpoints):
 
 
 def write_xml(zf, path, xml):
-    data = etree.tostring(
-        xml, encoding="utf-8", pretty_print=True, xml_declaration=True
-    )
+    data = etree.tostring(xml, encoding="utf-8", pretty_print=True, xml_declaration=True)
     zf.writestr(path, data)
 
 

@@ -1,5 +1,5 @@
-from .models import JsonToXMLModel
-from .XYZ import XYZ
+from .models import JsonToXMLModel, XMLToJsonModel
+from .XYZ import XYZ, XYZImport
 
 
 class ClippingPlane(JsonToXMLModel):
@@ -10,3 +10,13 @@ class ClippingPlane(JsonToXMLModel):
         return e.ClippingPlane(
             e.Location(*XYZ(plane["location"])), e.Direction(*XYZ(plane["direction"]))
         )
+
+
+class ClippingPlaneImport(XMLToJsonModel):
+    @property
+    def to_python(self):
+        xml = self.xml
+        return {
+            "location": XYZImport(xml.find("Location")).to_python,
+            "direction": XYZImport(xml.find("Direction")).to_python,
+        }

@@ -1,11 +1,8 @@
 from os import path
 from lxml import etree, builder
+from bcf_api_xml.errors import InvalidBcf
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "../Schemas"))
-
-
-class BcfXmlException(BaseException):
-    pass
 
 
 class JsonToXMLModel:
@@ -28,8 +25,17 @@ class JsonToXMLModel:
 
         if not schema.validate(self.xml):
             if raise_exception:
-                raise BcfXmlException(schema.error_log)
+                raise InvalidBcf(schema.error_log)
             else:
                 self.errors = schema.error_log
             return False
         return True
+
+
+class XMLToJsonModel:
+    def __init__(self, xml):
+        self.xml = xml
+
+    @property
+    def to_python(self):
+        raise Exception("Unimplemented")

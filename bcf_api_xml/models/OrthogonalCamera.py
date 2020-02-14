@@ -1,5 +1,5 @@
-from .models import JsonToXMLModel
-from .XYZ import XYZ
+from .models import JsonToXMLModel, XMLToJsonModel
+from .XYZ import XYZ, XYZImport
 
 
 class OrthogonalCamera(JsonToXMLModel):
@@ -13,3 +13,15 @@ class OrthogonalCamera(JsonToXMLModel):
             e.CameraUpVector(*XYZ(camera["camera_up_vector"]).xml),
             e.ViewToWorldScale(str(camera["view_to_world_scale"])),
         )
+
+
+class OrthogonalCameraImport(XMLToJsonModel):
+    @property
+    def to_python(self):
+        xml = self.xml
+        return {
+            "camera_view_point": XYZImport(xml.find("CameraViewPoint")).to_python,
+            "camera_direction": XYZImport(xml.find("CameraDirection")).to_python,
+            "camera_up_vector": XYZImport(xml.find("CameraUpVector")).to_python,
+            "view_to_world_scale": float(xml.find("ViewToWorldScale").text),
+        }

@@ -1,22 +1,17 @@
-from .models import JsonToXMLModel, XMLToJsonModel
-from .XYZ import XYZ, XYZImport
+from bcf_api_xml.models import XYZ
+from lxml import builder
 
 
-class ClippingPlane(JsonToXMLModel):
-    @property
-    def xml(self):
-        plane = self.json
-        e = self.maker
-        return e.ClippingPlane(
-            e.Location(*XYZ(plane["location"])), e.Direction(*XYZ(plane["direction"]))
-        )
+def to_xml(plane):
+    e = builder.ElementMaker()
+    return e.ClippingPlane(
+        e.Location(*XYZ.to_xml(plane["location"])),
+        e.Direction(*XYZ.to_xml(plane["direction"])),
+    )
 
 
-class ClippingPlaneImport(XMLToJsonModel):
-    @property
-    def to_python(self):
-        xml = self.xml
-        return {
-            "location": XYZImport(xml.find("Location")).to_python,
-            "direction": XYZImport(xml.find("Direction")).to_python,
-        }
+def to_python(xml):
+    return {
+        "location": XYZ.to_python(xml.find("Location")),
+        "direction": XYZ.to_python(xml.find("Direction")),
+    }

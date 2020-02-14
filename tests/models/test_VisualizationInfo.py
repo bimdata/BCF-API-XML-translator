@@ -1,6 +1,7 @@
-from os import path
 import json
+from os import path
 from bcf_api_xml.models import VisualizationInfo
+from bcf_api_xml.export import is_valid
 
 DATA_DIR = path.realpath(path.join(path.dirname(__file__), "../data"))
 
@@ -12,5 +13,5 @@ class TestVisinfo:
 
         assert viewpoints
         for viewpoint in list(viewpoints.values())[0]:
-            visinfo = VisualizationInfo(viewpoint)
-            assert visinfo.is_valid()
+            visinfo = VisualizationInfo.to_xml(viewpoint)
+            assert is_valid("visinfo.xsd", visinfo)

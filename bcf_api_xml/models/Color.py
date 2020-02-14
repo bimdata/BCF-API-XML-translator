@@ -1,25 +1,19 @@
-from .models import JsonToXMLModel, XMLToJsonModel
-from .Component import Component, ComponentImport
+from bcf_api_xml.models import Component
+from lxml import builder
 
 
-class Color(JsonToXMLModel):
-    @property
-    def xml(self):
-        coloring = self.json
-        e = self.maker
-        return e.Color(
-            *[Component(component) for component in coloring["components"]],
-            Color=coloring["color"],
-        )
+def xml(coloring):
+    e = builder.ElementMaker()
+    return e.Color(
+        *[Component.to_xml(component) for component in coloring["components"]],
+        Color=coloring["color"],
+    )
 
 
-class ColorImport(XMLToJsonModel):
-    @property
-    def to_python(self):
-        xml = self.xml
-        return {
-            "color": xml.get("Color"),
-            "components": [
-                ComponentImport(component).to_python for component in xml.findall("Component")
-            ],
-        }
+def to_python(xml):
+    return {
+        "color": xml.get("Color"),
+        "components": [
+            Component.to_python(component) for component in xml.findall("Component")
+        ],
+    }

@@ -1,21 +1,13 @@
-from .models import XMLToJsonModel
+def to_python(xml):
+    viewpoint = {"guid": xml.get("Guid")}
 
+    if (index := xml.find("Index")) is not None:
+        viewpoint["index"] = int(index.text)
 
-class ViewpointImport(XMLToJsonModel):
-    @property
-    def to_python(self):
-        viewpoint = {}
-        xml = self.xml
+    if (snapshot_filename := xml.find("Snapshot")) is not None:
+        viewpoint["snapshot_filename"] = snapshot_filename.text
 
-        viewpoint["guid"] = xml.get("Guid")
+    if (viewpoint_filename := xml.find("Viewpoint")) is not None:
+        viewpoint["viewpoint_filename"] = viewpoint_filename.text
 
-        if (index := xml.find("Index")) is not None:
-            viewpoint["index"] = int(index.text)
-
-        if (snapshot_filename := xml.find("Snapshot")) is not None:
-            viewpoint["snapshot_filename"] = snapshot_filename.text
-
-        if (viewpoint_filename := xml.find("Viewpoint")) is not None:
-            viewpoint["viewpoint_filename"] = viewpoint_filename.text
-
-        return viewpoint
+    return viewpoint

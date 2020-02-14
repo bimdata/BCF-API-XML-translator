@@ -1,27 +1,21 @@
-from .models import JsonToXMLModel, XMLToJsonModel
-from .XYZ import XYZ, XYZImport
+from bcf_api_xml.models import XYZ
+from lxml import builder
 
 
-class OrthogonalCamera(JsonToXMLModel):
-    @property
-    def xml(self):
-        camera = self.json
-        e = self.maker
-        return e.OrthogonalCamera(
-            e.CameraViewPoint(*XYZ(camera["camera_view_point"]).xml),
-            e.CameraDirection(*XYZ(camera["camera_direction"]).xml),
-            e.CameraUpVector(*XYZ(camera["camera_up_vector"]).xml),
-            e.ViewToWorldScale(str(camera["view_to_world_scale"])),
-        )
+def to_xml(camera):
+    e = builder.ElementMaker()
+    return e.OrthogonalCamera(
+        e.CameraViewPoint(*XYZ.to_xml(camera["camera_view_point"])),
+        e.CameraDirection(*XYZ.to_xml(camera["camera_direction"])),
+        e.CameraUpVector(*XYZ.to_xml(camera["camera_up_vector"])),
+        e.ViewToWorldScale(str(camera["view_to_world_scale"])),
+    )
 
 
-class OrthogonalCameraImport(XMLToJsonModel):
-    @property
-    def to_python(self):
-        xml = self.xml
-        return {
-            "camera_view_point": XYZImport(xml.find("CameraViewPoint")).to_python,
-            "camera_direction": XYZImport(xml.find("CameraDirection")).to_python,
-            "camera_up_vector": XYZImport(xml.find("CameraUpVector")).to_python,
-            "view_to_world_scale": float(xml.find("ViewToWorldScale").text),
-        }
+def to_python(xml):
+    return {
+        "camera_view_point": XYZ.to_python(xml.find("CameraViewPoint")),
+        "camera_direction": XYZ.to_python(xml.find("CameraDirection")),
+        "camera_up_vector": XYZ.to_python(xml.find("CameraUpVector")),
+        "view_to_world_scale": float(xml.find("ViewToWorldScale").text),
+    }

@@ -1,27 +1,21 @@
-from .models import JsonToXMLModel, XMLToJsonModel
-from .XYZ import XYZ, XYZImport
+from bcf_api_xml.models import XYZ
+from lxml import builder
 
 
-class PerspectiveCamera(JsonToXMLModel):
-    @property
-    def xml(self):
-        camera = self.json
-        e = self.maker
-        return e.PerspectiveCamera(
-            e.CameraViewPoint(*XYZ(camera["camera_view_point"]).xml),
-            e.CameraDirection(*XYZ(camera["camera_direction"]).xml),
-            e.CameraUpVector(*XYZ(camera["camera_up_vector"]).xml),
-            e.FieldOfView(str(camera["field_of_view"])),
-        )
+def to_xml(camera):
+    e = builder.ElementMaker()
+    return e.PerspectiveCamera(
+        e.CameraViewPoint(*XYZ.to_xml(camera["camera_view_point"])),
+        e.CameraDirection(*XYZ.to_xml(camera["camera_direction"])),
+        e.CameraUpVector(*XYZ.to_xml(camera["camera_up_vector"])),
+        e.FieldOfView(str(camera["field_of_view"])),
+    )
 
 
-class PerspectiveCameraImport(XMLToJsonModel):
-    @property
-    def to_python(self):
-        xml = self.xml
-        return {
-            "camera_view_point": XYZImport(xml.find("CameraViewPoint")).to_python,
-            "camera_direction": XYZImport(xml.find("CameraDirection")).to_python,
-            "camera_up_vector": XYZImport(xml.find("CameraUpVector")).to_python,
-            "field_of_view": float(xml.find("FieldOfView").text),
-        }
+def to_python(xml):
+    return {
+        "camera_view_point": XYZ.to_python(xml.find("CameraViewPoint")),
+        "camera_direction": XYZ.to_python(xml.find("CameraDirection")),
+        "camera_up_vector": XYZ.to_python(xml.find("CameraUpVector")),
+        "field_of_view": float(xml.find("FieldOfView").text),
+    }

@@ -5,10 +5,10 @@ import zipfile
 from lxml import etree
 from .errors import UnsupportedVersion
 from bcf_api_xml.models import (
-    TopicImport,
-    CommentImport,
-    ViewpointImport,
-    VisualizationInfoImport,
+    Topic,
+    Comment,
+    Viewpoint,
+    VisualizationInfo,
 )
 
 
@@ -38,13 +38,13 @@ def import_bcf_zip(bcf_file):
 
                 root = etree.fromstring(zip_ref.read(markup))
                 xml_topic = root.find("Topic")
-                topic = TopicImport(xml_topic).to_python
+                topic = Topic.to_python(xml_topic)
                 topic["comments"] = [
-                    CommentImport(comment_xml).to_python
+                    CommentImport(comment_xml).to_python()
                     for comment_xml in root.findall("Comment")
                 ]
                 viewpoints = [
-                    ViewpointImport(viewpoint_xml).to_python
+                    Viewpoint.to_python(viewpoint_xml)
                     for viewpoint_xml in root.findall("Viewpoints")
                 ]
                 for viewpoint in viewpoints:
@@ -57,7 +57,7 @@ def import_bcf_zip(bcf_file):
                         }
                     if filename := viewpoint.pop("viewpoint_filename", None):
                         xml = etree.fromstring(zip_ref.read(topic_directory + filename))
-                        viewpoint.update(**VisualizationInfoImport(xml).to_python)
+                        viewpoint.update(**VisualizationInfo.to_python(xml))
                 topic["viewpoints"] = viewpoints
                 all_topics.append(topic)
     return all_topics

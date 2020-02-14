@@ -48,10 +48,10 @@ def export_viewpoint(viewpoint, is_first):
 
 def export_markup(topic, comments, viewpoints):
     e = builder.ElementMaker()
-    children = [Topic(topic).xml]
+    children = [Topic.to_xml(topic)]
 
     for comment in comments:
-        children.append(Comment(comment).xml)
+        children.append(Comment.to_xml(comment))
 
     for index, viewpoint in enumerate(viewpoints):
         xml_viewpoint = export_viewpoint(viewpoint, index == 0)
@@ -90,7 +90,7 @@ def export_bcf_zip(topics, comments, viewpoints):
             write_xml(zf, topic_dir + "markup.bcf", xml_markup)
 
             for index, viewpoint in enumerate(topic_viewpoints):
-                xml_visinfo = VisualizationInfo(viewpoint).xml
+                xml_visinfo = VisualizationInfo.to_xml(viewpoint)
                 viewpoint_name = (
                     "viewpoint.bcfv" if index == 0 else (viewpoint["guid"] + ".bcfv")
                 )

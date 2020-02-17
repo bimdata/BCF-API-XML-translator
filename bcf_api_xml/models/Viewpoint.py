@@ -14,8 +14,6 @@ def to_xml(viewpoint, is_first):
     )
 
 
-
-
 def to_python(xml):
     viewpoint = {"guid": xml.get("Guid")}
 

@@ -40,8 +40,7 @@ def to_json(bcf_file):
                 xml_topic = root.find("Topic")
                 topic = Topic.to_python(xml_topic)
                 topic["comments"] = [
-                    Comment.to_python(comment_xml)
-                    for comment_xml in root.findall("Comment")
+                    Comment.to_python(comment_xml) for comment_xml in root.findall("Comment")
                 ]
                 viewpoints = [
                     Viewpoint.to_python(viewpoint_xml)

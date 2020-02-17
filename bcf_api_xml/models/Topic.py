@@ -56,7 +56,7 @@ def to_python(xml):
         topic["index"] = index.text
 
     if (creation_date := xml.find("CreationDate")) is not None:
-        topic["creation_date"] = creation_date.text
+        topic["creation_date"] = parse(creation_date.text)
 
     if (creation_author := xml.find("CreationAuthor")) is not None:
         topic["creation_author"] = creation_author.text

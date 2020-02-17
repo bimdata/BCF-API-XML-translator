@@ -22,7 +22,7 @@ def check_bcf_version(file):
         )
 
 
-def to_python_data(bcf_file):
+def to_json(bcf_file):
     with zipfile.ZipFile(bcf_file, "r") as zip_ref:
         with zip_ref.open("bcf.version") as version_file:
             check_bcf_version(version_file)

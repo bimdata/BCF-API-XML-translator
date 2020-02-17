@@ -43,7 +43,7 @@ def write_xml(zf, path, xml):
     zf.writestr(path, data)
 
 
-def to_bcf_zip(topics, comments, viewpoints):
+def to_zip(topics, comments, viewpoints):
     """
     topics: list of topics (dict parsed from BCF-API json)
     viewpoints: dict(topics_guid=[viewpoint])

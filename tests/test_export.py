@@ -29,4 +29,4 @@ class TestExportBcfZip:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        export.to_bcf_zip(topics, comments, viewpoints)
+        export.to_zip(topics, comments, viewpoints)

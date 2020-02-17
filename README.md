@@ -11,11 +11,11 @@ pip install bcf-api-xml
 
 # usage
 ```python
-    from bcf_api_xml import to_bcf_zip, to_bcf_data
+    from bcf_api_xml import to_zip, to_json
 
-    file_like_bcf_zip = to_bcf_zip(topics, comments, viewpoints)
+    file_like_bcf_zip = to_zip(topics, comments, viewpoints)
 
-    imported_topics = to_bcf_data(file_like_bcf_zip)
+    imported_topics = to_json(file_like_bcf_zip)
 ```
 
 # develop
@@ -27,5 +27,5 @@ pytest
 
 # Publish new version
 ```bash
-poetry publish
+poetry publish --build --username= --password=
 ```

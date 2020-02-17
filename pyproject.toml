@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bcf-api-xml"
-version = "0.2.0"
+version = "0.2.1"
 description = "Convert BCF-API to BCF-XML"
 authors = ["Hugo Duroux <hugo@bimdata.io>"]
 license = "MIT"

@@ -1,4 +1,4 @@
-from datetime import datetime
+from dateutil.parser import parse
 
 from lxml import builder
 
@@ -23,7 +23,7 @@ def to_xml(comment):
 def to_python(xml):
     comment = {}
 
-    comment["date"] = datetime.fromisoformat(xml.find("Date").text)
+    comment["date"] = parse(xml.find("Date").text)
     comment["comment"] = xml.find("Comment").text or ""
     comment["author"] = xml.find("Author").text
 
@@ -31,7 +31,7 @@ def to_python(xml):
         comment["viewpoint_guid"] = viewpoint.get("Guid")
 
     if (modified_date := xml.find("ModifiedDate")) is not None:
-        comment["modified_date"] = datetime.fromisoformat(modified_date.text)
+        comment["modified_date"] = parse(modified_date.text)
 
     if (modified_author := xml.find("ModifiedAuthor")) is not None:
         comment["modified_author"] = modified_author.text

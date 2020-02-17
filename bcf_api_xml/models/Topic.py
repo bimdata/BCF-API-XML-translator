@@ -1,4 +1,4 @@
-from datetime import datetime
+from dateutil.parser import parse
 from lxml import builder
 
 
@@ -45,7 +45,7 @@ def to_python(xml):
         "topic_type": xml.get("TopicType"),
         "topic_status": xml.get("TopicStatus"),
         "title": xml.find("Title").text,
-        "creation_date": datetime.fromisoformat(xml.find("CreationDate").text),
+        "creation_date": parse(xml.find("CreationDate").text),
         "creation_author": xml.find("CreationAuthor").text,
     }
 
@@ -62,7 +62,7 @@ def to_python(xml):
         topic["creation_author"] = creation_author.text
 
     if (modified_date := xml.find("ModifiedDate")) is not None:
-        topic["modified_date"] = datetime.fromisoformat(modified_date.text)
+        topic["modified_date"] = parse(modified_date.text)
 
     if (modified_author := xml.find("ModifiedAuthor")) is not None:
         topic["modified_author"] = modified_author.text

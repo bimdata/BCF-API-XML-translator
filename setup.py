@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="bcf_api_xml",
-    version="0.2.3",
+    version="0.2.4",
     description="Convert BCF-API to BCF-XML",
     long_description=README,
     long_description_content_type="text/markdown",

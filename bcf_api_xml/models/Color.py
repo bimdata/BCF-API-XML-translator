@@ -2,7 +2,7 @@ from bcf_api_xml.models import Component
 from lxml import builder
 
 
-def xml(coloring):
+def to_xml(coloring):
     e = builder.ElementMaker()
     return e.Color(
         *[Component.to_xml(component) for component in coloring["components"]],

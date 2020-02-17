@@ -3,7 +3,7 @@ import os
 import base64
 import zipfile
 from lxml import etree
-from .errors import UnsupportedVersion
+from .errors import UnsupportedBCFVersion
 from bcf_api_xml.models import (
     Topic,
     Comment,
@@ -17,12 +17,12 @@ def check_bcf_version(file):
     root = bcf_version_tree.getroot()
     version = root.get("VersionId")
     if version != "2.1":
-        raise UnsupportedVersion(
+        raise UnsupportedBCFVersion(
             f"version {version} is nor supported. Only BCF 2.1 is supported"
         )
 
 
-def import_bcf_zip(bcf_file):
+def to_python_data(bcf_file):
     with zipfile.ZipFile(bcf_file, "r") as zip_ref:
         with zip_ref.open("bcf.version") as version_file:
             check_bcf_version(version_file)
@@ -30,7 +30,7 @@ def import_bcf_zip(bcf_file):
         all_topics = []
         for file in files:
             if file.is_dir():
-                # iz zip has explicit directories, ignore them
+                # if zip has explicit directories, ignore them
                 continue
             if file.filename.endswith("markup.bcf"):
                 markup = file.filename
@@ -40,7 +40,7 @@ def import_bcf_zip(bcf_file):
                 xml_topic = root.find("Topic")
                 topic = Topic.to_python(xml_topic)
                 topic["comments"] = [
-                    CommentImport(comment_xml).to_python()
+                    Comment.to_python(comment_xml)
                     for comment_xml in root.findall("Comment")
                 ]
                 viewpoints = [

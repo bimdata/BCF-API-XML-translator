@@ -1,6 +1,6 @@
-class UnsupportedVersion(Exception):
+class UnsupportedBCFVersion(Exception):
     pass
 
 
-class InvalidBcf(Exception):
+class InvalidBCF(Exception):
     pass

@@ -1,3 +1,21 @@
+from lxml import builder
+
+
+def to_xml(viewpoint, is_first):
+    e = builder.ElementMaker()
+    viewpoint_name = "viewpoint.bcfv" if is_first else (viewpoint["guid"] + ".bcfv")
+    snapshot_name = "snapshot.png" if is_first else (viewpoint["guid"] + ".png")
+
+    return e.Viewpoints(
+        e.Viewpoint(viewpoint_name),
+        e.Snapshot(snapshot_name),
+        e.Index(str(viewpoint["index"])),
+        Guid=str(viewpoint["guid"]),
+    )
+
+
+
+
 def to_python(xml):
     viewpoint = {"guid": xml.get("Guid")}
 

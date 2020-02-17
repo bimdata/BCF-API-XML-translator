@@ -18,7 +18,7 @@ def to_xml(topic):
     children.append(e.CreationDate(topic["creation_date"]))
     children.append(e.CreationAuthor(topic.get("creation_author", "")))
     if (modified_date := topic.get("modified_date")) is not None:
-        children.append(e.ModifiedDate(topic.get("modified_date")))
+        children.append(e.ModifiedDate(modified_date))
     if (modified_author := topic.get("modified_author")) is not None:
         children.append(e.ModifiedAuthor(modified_author))
     if (due_date := topic.get("due_date")) is not None:

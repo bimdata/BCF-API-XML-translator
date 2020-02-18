@@ -1,12 +1,18 @@
-from .models import JsonToXMLModel
-from .XYZ import XYZ
+from bcf_api_xml.models import XYZ
+from lxml import builder
 
 
-class Line(JsonToXMLModel):
-    @property
-    def xml(self):
-        line = self.json
-        e = self.maker
-        return e.Line(
-            e.StartPoint(*XYZ(line["start_point"])), e.EndPoint(*XYZ(line["end_point"]))
-        )
+def to_xml(line):
+    e = builder.ElementMaker()
+    return e.Line(
+        e.StartPoint(*XYZ.to_xml(line["start_point"])),
+        e.EndPoint(*XYZ.to_xml(line["end_point"])),
+    )
+
+
+def to_python(self):
+    xml = self.xml
+    return {
+        "start_point": XYZ.to_python(xml.find("StartPoint")),
+        "end_point": XYZ.to_python(xml.find("EndPoint")),
+    }

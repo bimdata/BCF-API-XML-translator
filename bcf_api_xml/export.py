@@ -1,10 +1,10 @@
-import os
 import io
 import base64
 import zipfile
 from os import path
 from lxml import etree, builder
-from .models import Topic, Comment, VisualizationInfo
+from bcf_api_xml.models import Topic, Comment, VisualizationInfo, Viewpoint
+from bcf_api_xml.errors import InvalidBCF
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
@@ -16,45 +16,22 @@ def is_valid(schema_name, xml, raise_exception=False):
 
     if not schema.validate(xml):
         if raise_exception:
-            raise BcfXmlException(schema.error_log)
+            raise InvalidBCF(schema.error_log)
         else:
             print(schema.error_log)
         return False
     return True
 
-    schema_path = path.join(SCHEMA_DIR, schema_name)
-    with open(schema_path, "r") as file:
-        schema = etree.XMLSchema(file=file)
-
-    if not schema.validate(xml):
-        print("NOT VALID with", schema_path)
-        print(schema.error_log)
-        return False
-    return True
-
-
-def export_viewpoint(viewpoint, is_first):
-    e = builder.ElementMaker()
-    viewpoint_name = "viewpoint.bcfv" if is_first else (viewpoint["guid"] + ".bcfv")
-    snapshot_name = "snapshot.png" if is_first else (viewpoint["guid"] + ".png")
-
-    return e.Viewpoints(
-        e.Viewpoint(viewpoint_name),
-        e.Snapshot(snapshot_name),
-        e.Index(str(viewpoint["index"])),
-        Guid=str(viewpoint["guid"]),
-    )
-
 
 def export_markup(topic, comments, viewpoints):
     e = builder.ElementMaker()
-    children = [Topic(topic).xml]
+    children = [Topic.to_xml(topic)]
 
     for comment in comments:
-        children.append(Comment(comment).xml)
+        children.append(Comment.to_xml(comment))
 
     for index, viewpoint in enumerate(viewpoints):
-        xml_viewpoint = export_viewpoint(viewpoint, index == 0)
+        xml_viewpoint = Viewpoint.to_xml(viewpoint, index == 0)
         children.append(xml_viewpoint)
     xml_markup = e.Markup(*children)
     is_valid("markup.xsd", xml_markup, raise_exception=True)
@@ -62,13 +39,11 @@ def export_markup(topic, comments, viewpoints):
 
 
 def write_xml(zf, path, xml):
-    data = etree.tostring(
-        xml, encoding="utf-8", pretty_print=True, xml_declaration=True
-    )
+    data = etree.tostring(xml, encoding="utf-8", pretty_print=True, xml_declaration=True)
     zf.writestr(path, data)
 
 
-def export_bcf_zip(topics, comments, viewpoints):
+def to_zip(topics, comments, viewpoints):
     """
     topics: list of topics (dict parsed from BCF-API json)
     viewpoints: dict(topics_guid=[viewpoint])
@@ -83,7 +58,7 @@ def export_bcf_zip(topics, comments, viewpoints):
             topic_guid = topic["guid"]
             topic_comments = comments.get(topic_guid, [])
             topic_viewpoints = viewpoints.get(topic_guid, [])
-            # 1 dossier par topic
+            # 1 directory per topic
             topic_dir = topic_guid + "/"
             zfi = zipfile.ZipInfo(topic_dir)
             zf.writestr(zfi, "")  # create the directory in the zip
@@ -92,7 +67,7 @@ def export_bcf_zip(topics, comments, viewpoints):
             write_xml(zf, topic_dir + "markup.bcf", xml_markup)
 
             for index, viewpoint in enumerate(topic_viewpoints):
-                xml_visinfo = VisualizationInfo(viewpoint).xml
+                xml_visinfo = VisualizationInfo.to_xml(viewpoint)
                 viewpoint_name = (
                     "viewpoint.bcfv" if index == 0 else (viewpoint["guid"] + ".bcfv")
                 )
@@ -104,6 +79,6 @@ def export_bcf_zip(topics, comments, viewpoints):
                     )
                     snapshot = viewpoint.get("snapshot").get("snapshot_data")
                     # Break out the header from the base64 content
-                    header, data = snapshot.split(";base64,")
+                    _, data = snapshot.split(";base64,")
                     zf.writestr(topic_dir + snapshot_name, base64.b64decode(data))
     return zip_file

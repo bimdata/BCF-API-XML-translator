@@ -1,24 +1,37 @@
-from .models import JsonToXMLModel
-from .Component import Component
+from bcf_api_xml.models import Component
+from lxml import builder
 
 
 def boolean_repr(value):
     return "true" if value else "false"
 
 
-class Visibility(JsonToXMLModel):
-    @property
-    def xml(self):
-        visibility = self.json
-        e = self.maker
-        children = []
-        if visibility["exceptions"]:
-            components = [
-                Component(component).xml
-                for component in visibility["exceptions"]
-                if component.get("ifc_guid")
-            ]
-            children.append(e.Exceptions(*components))
-        return e.Visibility(
-            *children, DefaultVisibility=boolean_repr(visibility["default_visibility"])
-        )
+def to_boolean(value):
+    return value == "true"
+
+
+def to_xml(visibility):
+    e = builder.ElementMaker()
+    children = []
+    if exceptions := visibility.get("exceptions"):
+        components = [
+            Component.to_xml(component)
+            for component in exceptions
+            if component.get("ifc_guid")
+        ]
+        children.append(e.Exceptions(*components))
+    return e.Visibility(
+        *children, DefaultVisibility=boolean_repr(visibility["default_visibility"])
+    )
+
+
+def to_python(xml):
+    visibility = {
+        "default_visibility": xml.get("DefaultVisibility"),
+    }
+    if (exceptions := xml.find("Exceptions")) is not None:
+        visibility["exceptions"] = [
+            Component.to_python(component) for component in exceptions.findall("Component")
+        ]
+
+    return visibility

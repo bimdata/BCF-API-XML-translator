@@ -1,41 +1,76 @@
-from .models import JsonToXMLModel
+from dateutil.parser import parse
+from lxml import builder
 
 
-class Topic(JsonToXMLModel):
-    @property
-    def xml(self):
-        topic = self.json
-        e = self.maker
-        children = []
-        for ref in topic.get("reference_links", []):
-            children.append(e.ReferenceLink(ref))
-        children.append(e.Title(topic["title"]))
-        if topic.get("priority"):
-            children.append(e.Priority(topic.get("priority")))
-        if topic.get("index"):
-            children.append(e.Index(str(topic.get("index"))))
-        for label in topic.get("labels"):
-            children.append(e.Labels(label))
+def to_xml(topic):
+    e = builder.ElementMaker()
+    children = []
+    for ref in topic.get("reference_links", []):
+        children.append(e.ReferenceLink(ref))
+    children.append(e.Title(topic["title"]))
+    if (priority := topic.get("priority")) is not None:
+        children.append(e.Priority(priority))
+    if (index := topic.get("index")) is not None:
+        children.append(e.Index(str(index)))
+    for label in topic.get("labels"):
+        children.append(e.Labels(label))
 
-        children.append(e.CreationDate(topic["creation_date"]))
-        children.append(e.CreationAuthor(topic.get("creation_author", "")))
-        if topic.get("modified_date"):
-            children.append(e.ModifiedDate(topic.get("modified_date")))
-        if topic.get("modified_author"):
-            children.append(e.ModifiedAuthor(topic.get("modified_author")))
-        if topic.get("due_date"):
-            children.append(e.DueDate(topic.get("due_date")))
-        if topic.get("assigned_to"):
-            children.append(e.AssignedTo(topic.get("assigned_to")))
-        if topic.get("stage"):
-            children.append(e.Stage(topic.get("stage")))
-        if topic.get("description"):
-            children.append(e.Description(topic.get("description")))
+    children.append(e.CreationDate(topic["creation_date"]))
+    children.append(e.CreationAuthor(topic.get("creation_author", "")))
+    if (modified_date := topic.get("modified_date")) is not None:
+        children.append(e.ModifiedDate(modified_date))
+    if (modified_author := topic.get("modified_author")) is not None:
+        children.append(e.ModifiedAuthor(modified_author))
+    if (due_date := topic.get("due_date")) is not None:
+        children.append(e.DueDate(due_date))
+    if (assigned_to := topic.get("assigned_to")) is not None:
+        children.append(e.AssignedTo(assigned_to))
+    if (stage := topic.get("stage")) is not None:
+        children.append(e.Stage(stage))
+    if (description := topic.get("description")) is not None:
+        children.append(e.Description(description))
 
-        attributes = {"Guid": topic["guid"]}
-        if topic.get("topic_type"):
-            attributes["TopicType"] = topic.get("topic_type")
+    attributes = {"Guid": topic["guid"]}
+    if (topic_type := topic.get("topic_type")) is not None:
+        attributes["TopicType"] = topic_type
 
-        if topic.get("topic_status"):
-            attributes["TopicStatus"] = topic.get("topic_status")
-        return e.Topic(*children, **attributes)
+    if (topic_status := topic.get("topic_status")) is not None:
+        attributes["TopicStatus"] = topic_status
+    return e.Topic(*children, **attributes)
+
+
+def to_python(xml):
+    topic = {
+        "guid": xml.get("Guid"),
+        "topic_type": xml.get("TopicType"),
+        "topic_status": xml.get("TopicStatus"),
+        "title": xml.find("Title").text,
+        "creation_date": parse(xml.find("CreationDate").text),
+        "creation_author": xml.find("CreationAuthor").text,
+    }
+
+    if (priority := xml.find("Priority")) is not None:
+        topic["priority"] = priority.text
+
+    if (index := xml.find("Index")) is not None:
+        topic["index"] = index.text
+
+    if (creation_date := xml.find("CreationDate")) is not None:
+        topic["creation_date"] = parse(creation_date.text)
+
+    if (creation_author := xml.find("CreationAuthor")) is not None:
+        topic["creation_author"] = creation_author.text
+
+    if (modified_date := xml.find("ModifiedDate")) is not None:
+        topic["modified_date"] = parse(modified_date.text)
+
+    if (modified_author := xml.find("ModifiedAuthor")) is not None:
+        topic["modified_author"] = modified_author.text
+
+    if (assigned_to := xml.find("AssignedTo")) is not None:
+        topic["assigned_to"] = assigned_to.text
+
+    if (description := xml.find("Description")) is not None:
+        topic["description"] = description.text
+
+    return topic

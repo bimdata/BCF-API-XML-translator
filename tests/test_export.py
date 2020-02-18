@@ -15,9 +15,7 @@ class TestMarkup:
             viewpoints = json.load(viewpoints_file)
 
         topic = topics[0]
-        xml_markup = export.export_markup(
-            topic, comments[topic["guid"]], viewpoints[topic["guid"]]
-        )
+        export.export_markup(topic, comments[topic["guid"]], viewpoints[topic["guid"]])
 
 
 class TestExportBcfZip:
@@ -29,4 +27,4 @@ class TestExportBcfZip:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        export.export_bcf_zip(topics, comments, viewpoints)
+        export.to_zip(topics, comments, viewpoints)

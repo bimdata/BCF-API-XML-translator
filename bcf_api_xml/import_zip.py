@@ -48,9 +48,7 @@ def to_json(bcf_file):
                 ]
                 for viewpoint in viewpoints:
                     if filename := viewpoint.pop("snapshot_filename", None):
-                        file = io.BytesIO(
-                            zip_ref.read(topic_directory + filename)
-                        )
+                        file = io.BytesIO(zip_ref.read(topic_directory + filename))
                         file.name = filename
                         viewpoint["snapshot"] = {
                             "snapshot_type": os.path.splitext(filename)[1],

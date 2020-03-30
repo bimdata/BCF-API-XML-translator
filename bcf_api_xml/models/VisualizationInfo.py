@@ -65,10 +65,15 @@ def to_python(xml):
     if (orthogonal_camera := xml.find("OrthogonalCamera")) is not None:
         viewpoint["orthogonal_camera"] = OrthogonalCamera.to_python(orthogonal_camera)
 
-    viewpoint["lines"] = [Line.to_python(line.find("Line")) for line in xml.findall("Lines")]
+    viewpoint["lines"] = [
+        Line.to_python(line.find("Line"))
+        for line in xml.findall("Lines")
+        if line.find("Line") is not None
+    ]
     viewpoint["clipping_planes"] = [
         ClippingPlane.to_python(plane.find("ClippingPlane"))
         for plane in xml.findall("ClippingPlanes")
+        if plane.find("ClippingPlane") is not None
     ]
     if (components := xml.find("Components")) is not None:
         viewpoint["components"] = {}

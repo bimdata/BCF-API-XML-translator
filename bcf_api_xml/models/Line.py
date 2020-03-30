@@ -10,8 +10,7 @@ def to_xml(line):
     )
 
 
-def to_python(self):
-    xml = self.xml
+def to_python(xml):
     return {
         "start_point": XYZ.to_python(xml.find("StartPoint")),
         "end_point": XYZ.to_python(xml.find("EndPoint")),

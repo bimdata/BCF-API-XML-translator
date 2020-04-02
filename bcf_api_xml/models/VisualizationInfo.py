@@ -17,9 +17,12 @@ def to_xml(viewpoint):
     children = []
 
     if (components := viewpoint.get("components")) is not None:
-        visibility = components["visibility"]
+        visibility = components.get("visibility")
 
-        components_children = [ViewSetupHints.to_xml(visibility["view_setup_hints"])]
+        components_children = []
+
+        if visibility and (view_setup_hints := visibility.get("view_setup_hints")) is not None:
+            components_children.append(ViewSetupHints.to_xml(view_setup_hints))
 
         xml_selections = [
             Component.to_xml(component)
@@ -29,7 +32,8 @@ def to_xml(viewpoint):
         if xml_selections:
             components_children.append(e.Selection(*xml_selections))
 
-        components_children.append(Visibility.to_xml(visibility))
+        if visibility:
+            components_children.append(Visibility.to_xml(visibility))
 
         xml_colorings = [Color.to_xml(coloring) for coloring in components.get("coloring", [])]
         if xml_colorings:

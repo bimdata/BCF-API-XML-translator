@@ -13,6 +13,5 @@ class TestExportBcfZip:
 
         viewpoint = Viewpoint.to_python(viewpoint_bcf)
         viz_info = VisualizationInfo.to_python(viewpoint_bcf)
-        print(viewpoint)
-        print(viz_info)
         assert len(viz_info['clipping_planes']) == 2
+        assert len(viz_info['components']['coloring']) == 5

@@ -8,6 +8,94 @@
 				<Component IfcGuid="0$i9r_EhXDWfvedSS_BRD9" />
 			</Exceptions>
 		</Visibility>
+		<Coloring>
+			<Color Color="26F7F7F7">
+				<Component IfcGuid="01pkiQZdL1BB7nKL2eDJ5e">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1476313</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="1D2uaK$7T8Rwgl8Vij7t7_">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1444390</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="33hkiOSQrDeeg_PKpqIdp1">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1214990</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="0_lwX3a0L9gfdETSWJOjfl">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1444390</AuthoringToolId>
+				</Component>
+			</Color>
+			<Color Color="263D3D3B">
+				<Component IfcGuid="2QiINqNljF_hcJtUUdWuW7">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1444390</AuthoringToolId>
+				</Component>
+			</Color>
+			<Color Color="FF00FF00">
+				<Component IfcGuid="32TYw4mrP8KvlFA699MxVx">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>2981376</AuthoringToolId>
+				</Component>
+			</Color>
+			<Color Color="2699A2A0">
+				<Component IfcGuid="1qvqpR4pT6TO7SkichX5El">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1214990</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="2j4uT5H9D7cfdQoEKvjBJ5">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1476313</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="2tQM4gIRH9NvTV5PUZKlmm">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1214990</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="3BR5oBpirE_OCEtn29F7Db">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1476313</AuthoringToolId>
+				</Component>
+			</Color>
+			<Color Color="26E4E4E4">
+				<Component IfcGuid="1pka$Pgsf7RAY4vzNqsibg">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1892974</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="1oQZd86tr358bKpJGxVPFy">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1704394</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="1pka$Pgsf7RAY4vzNqsibM">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1892946</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="32TYw4mrP8KvlFA699MxVu">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>2981379</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="1pka$Pgsf7RAY4vzNqsigY">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1892774</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="3lo0Tzs0bBCgyL14V3uQd5">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1704970</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="1oQZd86tr358bKpJGxVP2Z">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1704597</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="1oQZd86tr358bKpJGxVP6G">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>1704870</AuthoringToolId>
+				</Component>
+				<Component IfcGuid="32TYw4mrP8KvlFA699MxjX">
+					<OriginatingSystem>Autodesk Revit 2016 (ENU)</OriginatingSystem>
+					<AuthoringToolId>2978458</AuthoringToolId>
+				</Component>
+			</Color>
+		</Coloring>
 	</Components>
 	<PerspectiveCamera>
 		<CameraViewPoint>

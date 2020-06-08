@@ -18,14 +18,19 @@ def check_bcf_version(file):
     version = root.get("VersionId")
     if version != "2.1":
         raise UnsupportedBCFVersion(
-            f"version {version} is nor supported. Only BCF 2.1 is supported"
+            f"version {version} is not supported. Only BCF 2.1 is supported"
         )
 
 
 def to_json(bcf_file):
     with zipfile.ZipFile(bcf_file, "r") as zip_ref:
-        with zip_ref.open("bcf.version") as version_file:
-            check_bcf_version(version_file)
+        try:
+            with zip_ref.open("bcf.version") as version_file:
+                check_bcf_version(version_file)
+        except KeyError:
+            raise UnsupportedBCFVersion(
+                f"Unable to check version. It's probably an oudated version. Only BCF 2.1 is supported"
+            )
         files = zip_ref.infolist()
         all_topics = []
         for file in files:

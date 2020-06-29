@@ -14,6 +14,10 @@ python-dateutil = "^2.8.1"
 [tool.poetry.dev-dependencies]
 pytest = "^5.3.5"
 black = "^19.10b0"
+pre-commit = "^2.1.1"
+reorder-python-imports = "^2.0.0"
+pyflakes = {git = "https://github.com/pycqa/pyflakes", rev = "1911c20"}
+pycodestyle = {git = "https://github.com/pycqa/pycodestyle", rev = "d219c68"}
 
 [tool.black]
 line-length = 95

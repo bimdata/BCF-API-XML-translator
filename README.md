@@ -23,6 +23,7 @@ pip install bcf-api-xml
 poetry shell
 poetry install
 pytest
+pre-commit install
 ```
 
 # Publish new version

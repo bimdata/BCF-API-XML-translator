@@ -1,5 +1,4 @@
 from dateutil.parser import parse
-
 from lxml import builder
 
 

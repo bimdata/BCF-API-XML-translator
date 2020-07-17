@@ -1,15 +1,14 @@
 import io
 import os
-import base64
 import zipfile
+
 from lxml import etree
+
 from .errors import UnsupportedBCFVersion
-from bcf_api_xml.models import (
-    Topic,
-    Comment,
-    Viewpoint,
-    VisualizationInfo,
-)
+from bcf_api_xml.models import Comment
+from bcf_api_xml.models import Topic
+from bcf_api_xml.models import Viewpoint
+from bcf_api_xml.models import VisualizationInfo
 
 
 def check_bcf_version(file):
@@ -29,7 +28,7 @@ def to_json(bcf_file):
                 check_bcf_version(version_file)
         except KeyError:
             raise UnsupportedBCFVersion(
-                f"Unable to check version. It's probably an oudated version. Only BCF 2.1 is supported"
+                "Unable to check version. It's probably an oudated version. Only BCF 2.1 is supported"
             )
         files = zip_ref.infolist()
         all_topics = []

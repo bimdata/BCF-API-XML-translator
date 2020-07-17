@@ -1,10 +1,16 @@
-import io
 import base64
+import io
 import zipfile
 from os import path
-from lxml import etree, builder
-from bcf_api_xml.models import Topic, Comment, VisualizationInfo, Viewpoint
+
+from lxml import builder
+from lxml import etree
+
 from bcf_api_xml.errors import InvalidBCF
+from bcf_api_xml.models import Comment
+from bcf_api_xml.models import Topic
+from bcf_api_xml.models import Viewpoint
+from bcf_api_xml.models import VisualizationInfo
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 

@@ -1,5 +1,6 @@
-from os import path
 import json
+from os import path
+
 from bcf_api_xml import export
 
 DATA_DIR = path.realpath(path.join(path.dirname(__file__), "./data"))

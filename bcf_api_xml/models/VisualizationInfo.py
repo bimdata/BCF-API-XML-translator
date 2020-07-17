@@ -1,14 +1,13 @@
 from lxml import builder
-from bcf_api_xml.models import (
-    Component,
-    OrthogonalCamera,
-    PerspectiveCamera,
-    Line,
-    ClippingPlane,
-    ViewSetupHints,
-    Visibility,
-    Color,
-)
+
+from bcf_api_xml.models import ClippingPlane
+from bcf_api_xml.models import Color
+from bcf_api_xml.models import Component
+from bcf_api_xml.models import Line
+from bcf_api_xml.models import OrthogonalCamera
+from bcf_api_xml.models import PerspectiveCamera
+from bcf_api_xml.models import ViewSetupHints
+from bcf_api_xml.models import Visibility
 
 
 def to_xml(viewpoint):
@@ -70,14 +69,10 @@ def to_python(xml):
         viewpoint["orthogonal_camera"] = OrthogonalCamera.to_python(orthogonal_camera)
 
     if (lines := xml.find("Lines")) is not None:
-        viewpoint["lines"] = [
-            Line.to_python(line)
-            for line in lines.findall("Line")
-        ]
+        viewpoint["lines"] = [Line.to_python(line) for line in lines.findall("Line")]
     if (planes := xml.find("ClippingPlanes")) is not None:
         viewpoint["clipping_planes"] = [
-            ClippingPlane.to_python(plane)
-            for plane in planes.findall("ClippingPlane")
+            ClippingPlane.to_python(plane) for plane in planes.findall("ClippingPlane")
         ]
 
     if (components := xml.find("Components")) is not None:

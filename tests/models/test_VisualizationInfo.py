@@ -1,7 +1,8 @@
 import json
 from os import path
-from bcf_api_xml.models import VisualizationInfo
+
 from bcf_api_xml.export import is_valid
+from bcf_api_xml.models import VisualizationInfo
 
 DATA_DIR = path.realpath(path.join(path.dirname(__file__), "../data"))
 

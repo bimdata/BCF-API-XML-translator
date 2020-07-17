@@ -1,5 +1,6 @@
-from bcf_api_xml.models import XYZ
 from lxml import builder
+
+from bcf_api_xml.models import XYZ
 
 
 def to_xml(plane):

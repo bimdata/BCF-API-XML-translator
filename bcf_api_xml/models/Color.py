@@ -1,5 +1,6 @@
-from bcf_api_xml.models import Component
 from lxml import builder
+
+from bcf_api_xml.models import Component
 
 
 def to_xml(coloring):

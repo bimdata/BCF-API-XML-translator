@@ -4,6 +4,9 @@ version = "0.2.11"
 description = "Convert BCF-API to BCF-XML"
 authors = ["Hugo Duroux <hugo@bimdata.io>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/bimdata/rabbitmq-subprocess-client"
+repository = "https://github.com/bimdata/rabbitmq-subprocess-client"
 
 [tool.poetry.dependencies]
 python = "^3.8"

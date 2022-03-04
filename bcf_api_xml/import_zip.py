@@ -31,6 +31,7 @@ def to_json(bcf_file):
                 "Unable to check version. It's probably an oudated version. Only BCF 2.1 is supported"
             )
         files = zip_ref.infolist()
+        files_names = zip_ref.namelist()
         all_topics = []
         for file in files:
             if file.is_dir():
@@ -52,7 +53,10 @@ def to_json(bcf_file):
                 ]
                 for viewpoint in viewpoints:
                     if filename := viewpoint.pop("snapshot_filename", None):
-                        file = io.BytesIO(zip_ref.read(topic_directory + filename))
+                        file_path = topic_directory + filename
+                        if file_path not in files_names:
+                            continue
+                        file = io.BytesIO(zip_ref.read(file_path))
                         file.name = filename
                         viewpoint["snapshot"] = {
                             "snapshot_type": os.path.splitext(filename)[1],

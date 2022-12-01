@@ -22,17 +22,24 @@ def to_xml(comment):
 def to_python(xml):
     comment = {}
 
-    comment["date"] = parse(xml.find("Date").text)
-    comment["comment"] = xml.find("Comment").text or ""
-    comment["author"] = xml.find("Author").text
-
     if (viewpoint := xml.find("Viewpoint")) is not None:
         comment["viewpoint_guid"] = viewpoint.get("Guid")
 
-    if (modified_date := xml.find("ModifiedDate")) is not None:
+    if (author := xml.find("Author")) is not None:
+        comment["author"] = author.text
+
+    if (comment_field := xml.find("Comment")) is not None:
+        comment["comment"] = comment_field.text
+    else:
+        comment["comment"] = ""
+
+    if (date := xml.find("Date")) is not None and date.text is not None:
+        comment["date"] = parse(date.text)
+
+    if (modified_date := xml.find("ModifiedDate")) is not None and modified_date.text is not None:
         comment["modified_date"] = parse(modified_date.text)
 
-    if (modified_author := xml.find("ModifiedAuthor")) is not None:
+    if (modified_author := xml.find("ModifiedAuthor")) is not None and modified_author.text is not None:
         comment["modified_author"] = modified_author.text
 
     return comment

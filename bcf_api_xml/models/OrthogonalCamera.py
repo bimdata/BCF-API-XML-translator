@@ -14,9 +14,12 @@ def to_xml(camera):
 
 
 def to_python(xml):
-    return {
+    orthogonal_camera = {
         "camera_view_point": XYZ.to_python(xml.find("CameraViewPoint")),
         "camera_direction": XYZ.to_python(xml.find("CameraDirection")),
         "camera_up_vector": XYZ.to_python(xml.find("CameraUpVector")),
-        "view_to_world_scale": float(xml.find("ViewToWorldScale").text),
     }
+    if (view_to_world_scale := xml.find("ViewToWorldScale")) is not None and view_to_world_scale.text is not None:
+        orthogonal_camera["view_to_world_scale"] = float(view_to_world_scale.text)
+
+    return orthogonal_camera

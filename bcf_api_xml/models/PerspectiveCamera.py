@@ -14,9 +14,12 @@ def to_xml(camera):
 
 
 def to_python(xml):
-    return {
+    perspective_camera = {
         "camera_view_point": XYZ.to_python(xml.find("CameraViewPoint")),
         "camera_direction": XYZ.to_python(xml.find("CameraDirection")),
         "camera_up_vector": XYZ.to_python(xml.find("CameraUpVector")),
-        "field_of_view": float(xml.find("FieldOfView").text),
     }
+    if (field_of_view := xml.find("FieldOfView")) is not None and field_of_view.text is not None:
+        perspective_camera["field_of_view"] = float(field_of_view.text)
+
+    return perspective_camera

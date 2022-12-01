@@ -17,7 +17,7 @@ def to_xml(viewpoint, is_first):
 def to_python(xml):
     viewpoint = {"guid": xml.get("Guid")}
 
-    if (index := xml.find("Index")) is not None:
+    if (index := xml.find("Index")) is not None and index.text is not None:
         viewpoint["index"] = int(index.text)
 
     if (snapshot_filename := xml.find("Snapshot")) is not None:

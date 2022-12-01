@@ -38,6 +38,7 @@ def to_json(bcf_file):
                 # if zip has explicit directories, ignore them
                 continue
             if file.filename.endswith("markup.bcf"):
+                print(file.filename)
                 markup = file.filename
                 topic_directory = os.path.dirname(file.filename) + "/"
 

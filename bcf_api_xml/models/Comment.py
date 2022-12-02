@@ -29,7 +29,7 @@ def to_python(xml):
         comment["author"] = author.text
 
     if (comment_field := xml.find("Comment")) is not None:
-        comment["comment"] = comment_field.text
+        comment["comment"] = comment_field.text or ""
     else:
         comment["comment"] = ""
 

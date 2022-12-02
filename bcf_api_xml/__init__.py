@@ -3,4 +3,4 @@ from bcf_api_xml.errors import UnsupportedBCFVersion  # noqa: F401
 from bcf_api_xml.export import to_zip  # noqa: F401
 from bcf_api_xml.import_zip import to_json  # noqa: F401
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"

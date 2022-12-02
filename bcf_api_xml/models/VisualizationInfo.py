@@ -87,6 +87,12 @@ def to_python(xml):
                 viewpoint["components"]["visibility"][
                     "view_setup_hints"
                 ] = ViewSetupHints.to_python(hints)
+            else:
+                viewpoint["components"]["visibility"]["view_setup_hints"] = {
+                    "spaces_visible": False,
+                    "space_boundaries_visible": False,
+                    "openings_visible": False,
+                }
 
         if (colors := components.find("Coloring")) is not None:
             viewpoint["components"]["coloring"] = [

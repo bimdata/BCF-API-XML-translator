@@ -22,3 +22,12 @@ class TestImportBcfZip:
         viz_info = VisualizationInfo.to_python(viewpoint_bcf)
         assert len(viz_info["clipping_planes"]) == 2
         assert len(viz_info["components"]["coloring"]) == 5
+
+
+if __name__ == "__main__":
+    print("test import_file")
+    TestImportBcfZip().test_import_file()
+    print("DONE")
+    print("test import_viewpoint")
+    TestImportBcfZip().test_import_viewpoint()
+    print("DONE")

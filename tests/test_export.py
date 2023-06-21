@@ -29,3 +29,12 @@ class TestExportBcfZip:
             viewpoints = json.load(viewpoints_file)
 
         export.to_zip(topics, comments, viewpoints)
+
+
+if __name__ == "__main__":
+    print("test test_markup_validity")
+    TestMarkup().test_markup_validity()
+    print("DONE")
+    print("test export_bcf")
+    TestExportBcfZip().test_export_bcf()
+    print("DONE")

@@ -8956,5 +8956,1079 @@
         ]
       }
     }
+  ],
+  "0a05eb91-d6cf-4491-b916-5eab5b90f772": [
+    {
+      "index": 1,
+      "guid": "f924b47b-bac3-4643-9f37-4dc4b62da992",
+      "originating_system": "ifc3d",
+      "authoring_tool_id": "4683",
+      "orthogonal_camera": null,
+      "perspective_camera": {
+        "field_of_view": 60,
+        "camera_direction": {
+          "x": -0.1562044445277106,
+          "y": 0.9711074456047103,
+          "z": -0.18041757287161334
+        },
+        "camera_up_vector": {
+          "x": -0.028652206381360876,
+          "y": 0.1781279081698138,
+          "z": 0.9835901074129031
+        },
+        "camera_view_point": {
+          "x": 1842024.2033986878,
+          "y": 5173274.219620102,
+          "z": 180.2679630580471
+        },
+        "bimdata_camera_direction": null
+      },
+      "lines": [],
+      "clipping_planes": [],
+      "snapshot": {
+        "snapshot_type": "png",
+        "snapshot_data": "https://staging-main-storage.s3.gra.io.cloud.ovh.net/bcf/071fe4d6-9ea.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=34603c8b5c5848758754cad2a37d96f1%2F20230804%2Fgra%2Fs3%2Faws4_request&X-Amz-Date=20230804T132806Z&X-Amz-Expires=14400&X-Amz-SignedHeaders=host&X-Amz-Signature=290a0368b279253cd889cdadca60ddcb9519ba5ceaadc8cc72469ef05b1edd66"
+      },
+      "components": {
+        "coloring": [],
+        "visibility": {
+          "default_visibility": false,
+          "exceptions": [
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRTQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUj",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2QdDmV0TrDCeyB2Uhxt6uF",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2QdDmV0TrDCeyB2Uhxt6xk",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2QdDmV0TrDCeyB2Uhxt6wY",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2QdDmV0TrDCeyB2Uhxt6rB",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8qJ$TnRTR",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8qJ$TnRTO",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8qJ$TnRTP",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUb",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUi",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "321EIHH0v8KOO2s9JjdAGp",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "321EIHH0v8KOO2s9NjdAJx",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6uykw",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2wawFM1C1AN94bkTJMIkcP",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0XEWnb_9fBOv6F_6N$uDnC",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUc",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbH8",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbJX",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbIw",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbLb",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbMf",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbOT",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbRA",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbSd",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbVQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbUG",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Iaf$",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Ialz",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Iaki",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Iak8",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Iamq",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IamR",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Iapr",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_Iaqg",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuT3",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcu2T",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcu5H",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuAW",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuEK",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvn7",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "01tTgeZfL99xuLmchkhluw",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZBIm",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZBIV",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZBH8",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZAkm",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZAft",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26MvU",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv1",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv2",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUd",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUa",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUY",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbQ3",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IbQS",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3qGFm6zOj6ygcpBtn_IaZW",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZBMH",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2XeZSX3Or5iRy3GifMZBKC",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUZ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUW",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUX",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUe",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0hA_7Jy0jEoO$tMBiIKvBS",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "12UmqMU3H4WfxKvKhgqYTO",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUg",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUh",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0c$1U8McT0yxuQ44Dnart7",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0c$1U8McT0yxuQ649naraj",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1qf6$6S4jAiAgJycKiDqPo",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1qf6$6S4jAiAgJycKiDqPn",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1qf6$6S4jAiAgJycKiDqPm",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1qf6$6S4jAiAgJycKiDqPt",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1qf6$6S4jAiAgJycKiDqPs",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0dWoULYUH3zPg8sJxTnRUq",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "34YWoH0WT4GQc$ARBHEUIX",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "34YWoH0WT4GQc$ARBHESGI",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2xJBiUXKrBWP55PKA8KAt9",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "04BGh7FMf9JOn9ygLUpuCs",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1v",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1W",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6u$Lk",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1w",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1x",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1a",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1b",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1c",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1T1d",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6u$Lj",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6u$Li",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6u$Ll",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2VFjG6EaDEuObwZUFK1TuH",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0FwfpgTYr0wOs9pQ0KDqQr",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0FwfpgTYr0wOs9pQ0KDqQq",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0FwfpgTYr0wOs9pQ0KDqQh",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0FwfpgTYr0wOs9pQ0KDqQg",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "321EIHH0v8KOO2q9VjdB0E",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "321EIHH0v8KOO2q9VjdB0F",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3MoseaTSDALRRp5vYIJ1GQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6uyAU",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0XEWnb_9fBOv6F_6N$uESd",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1c1XNNn4z4SRAF6_u8GN29",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1tWwTiKLD5IhKCbnWS41zp",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6u$dM",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1r7kD2unvCQ8TNvjz6uyjy",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2T20NLR2bDbPhwwff78TRQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2T20NLR2bDbPhwwff78TIb",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2T20NLR2bDbPhwwff78TB9",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "10I8N5Lhj17gO1DCzLwUr$",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "10I8N5Lhj17gO1DCzLwUvw",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2V5HeUgCP8bxfsZwHn_E5Z",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDNwf",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDNwt",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDN5n",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDN4A",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDNAY",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDNNO",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3PG1PP3oH3YeBawF_fDNNP",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0hA_7Jy0jEoO$tMBiIKuQP",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "12UmqMU3H4WfxKvKhgqbdv",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "12UmqMU3H4WfxKvKhgqYSU",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv5",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv4",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2Idfvppc1A1wUGKwm4iDp2",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2Idfvppc1A1wUGKwm4iDqk",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2Idfvppc1A1wUGKwm4iIAM",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2Idfvppc1A1wUGKwm4iIAm",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1mA9eBe3D2DQLUS6ZYcXyQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "30RKBNXADBzP_JJW$2E0zO",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3Eu_z",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3Euse",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3ExEF",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3ExFW",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3Ex8Y",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3Ex8j",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0WgbOZllD6bvJPUti3Ex8u",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2gkv$_9kL6qu4$_SbvRKsi",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3AI58IZWnEYx_4P3lota_Z",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvsg",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvsD",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvvI",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvxp",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvx9",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvwL",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuOY",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuQp",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuQ0",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcu8u",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuAD",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuC1",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcuUy",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "15_MQ0w39FFhR9nIpHZQtk",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcu0t",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcu7e",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcu6w",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvqO",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv3",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3SI7yND7nBzw2UcgDBcvmg",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "02kB1rVQb1sQy2pSWdUghV",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2bNz6HIRT8ewnqfN7xZJVd",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv0",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2kL03nWbLAvvTRzXEs02YO",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2kL03nWbLAvvTRzX6s02YQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3c2BlJ83L8MfG0U4CfKh6Y",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wrB",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wr6",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wr5",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wr0",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wrQ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wrP",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wrJ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wrK",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqk",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqe",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqd",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqY",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqX",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqy",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqx",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqs",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1IQJpSU49DlPKPMYhdabpP",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2Af2bnezvBUOJUipmxm62Y",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1IQJpSU49DlPKPMYhdabp4",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2zohHQ0Wn3kBpgQbhEQOM3",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2zohHQ0Wn3kBpgQbhEQOM_",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "3DqaVQ6kHD0OxL53K19wqj",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2bP8kejBPDguFyrrNlF4SW",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2bP8kejBPDguFyrrNlF4SZ",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2bP8kejBPDguFyrrNlF4SY",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2bP8kejBPDguFyrrNlF4Sj",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "0FJPXM9lr2DOWPAUK1YPbH",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2gkv$_9kL6qu4$_SbvRLbx",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "2gkv$_9kL6qu4$_SbvRLaA",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26Mv9",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26MvB",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26MvA",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            },
+            {
+              "ifc_guid": "1MOE28gbr17QTEdUv26MvD",
+              "originating_system": "BIMDataViewer/v1.0",
+              "authoring_tool_id": null
+            }
+          ],
+          "view_setup_hints": {
+            "spaces_visible": true,
+            "space_boundaries_visible": true,
+            "openings_visible": true
+          }
+        },
+        "selection": [
+          {
+            "ifc_guid": "0dWoULYUH3zPg8qJ$TnRTP",
+            "originating_system": "BIMDataViewer/v1.0",
+            "authoring_tool_id": null
+          },
+          {
+            "ifc_guid": "321EIHH0v8KOO2s9JjdAGp",
+            "originating_system": "BIMDataViewer/v1.0",
+            "authoring_tool_id": null
+          }
+        ]
+      },
+      "pins": [
+        {
+          "guid": "1393a4f6-2874-4aa8-bb49-7714b6a190f5",
+          "name": "Annotation 1",
+          "color": null,
+          "point": {
+            "x": 1842024.5495920058,
+            "y": -5173285.417512104,
+            "z": 173.66273540109054
+          },
+          "index": null
+        },
+        {
+          "guid": "1393a4f6-2874-4aa8-bb49-7714b6a190f5",
+          "name": "Annotation 2",
+          "color": null,
+          "point": {
+            "x": 1842025.7851281383,
+            "y": -5173287.593755337,
+            "z": 173.63183809350545
+          },
+          "index": null
+        },
+        {
+          "guid": "1393a4f6-2874-4aa8-bb49-7714b6a190f5",
+          "name": "Annotation 3",
+          "color": null,
+          "point": {
+            "x": 1842027.4928546392,
+            "y": -5173290.602782295,
+            "z": 173.58846031560782
+          },
+          "index": null
+        }
+      ]
+    }
   ]
 }

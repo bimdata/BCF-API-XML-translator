@@ -1,3 +1,4 @@
+from dateutil.parser import parse
 from lxml import builder
 
 
@@ -50,7 +51,7 @@ def to_python(xml):
         topic["creation_author"] = creation_author.text
 
     if (creation_date := xml.find("CreationDate")) is not None and creation_date.text is not None:
-        topic["creation_date"] = creation_date.text
+        topic["creation_date"] = parse(creation_date.text)
 
     if (priority := xml.find("Priority")) is not None and priority.text is not None:
         topic["priority"] = priority.text
@@ -59,10 +60,10 @@ def to_python(xml):
         topic["index"] = index.text
 
     if (due_date := xml.find("DueDate")) is not None and due_date.text is not None:
-        topic["due_date"] = due_date.text
+        topic["due_date"] = parse(due_date.text)
 
     if (modified_date := xml.find("ModifiedDate")) is not None and modified_date.text is not None:
-        topic["modified_date"] = modified_date.text
+        topic["modified_date"] = parse(modified_date.text)
 
     if (modified_author := xml.find("ModifiedAuthor")) is not None and modified_author.text is not None:
         topic["modified_author"] = modified_author.text

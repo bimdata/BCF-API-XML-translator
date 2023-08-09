@@ -28,7 +28,9 @@ class TestExportBcfZip:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        export.to_zip(topics, comments, viewpoints)
+        data = export.to_zip(topics, comments, viewpoints)
+        with open("test_bcf_export.zip", "wb") as f:
+            f.write(data.getvalue())
 
 
 class TestExportBcfXls:
@@ -40,7 +42,9 @@ class TestExportBcfXls:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        export.to_xls(topics, comments, viewpoints)
+        data = export.to_xls(topics, comments, viewpoints)
+        with open("test_bcf_export.xlsx", "wb") as f:
+            f.write(data.getvalue())
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 import base64
 import io
-import os
 import requests
 import xlsxwriter
 import zipfile
@@ -18,6 +17,34 @@ from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
+
+XLS_HEADER_TRANSLATIONS = {
+    "en": {
+        "index": "Index",
+        "creation_date": "Date",
+        "author": "Author",
+        "title": "Title",
+        "description": "Description",
+        "due_date": "Due date",
+        "status": "Status",
+        "priority": "Priority",
+        "comments": "Comments",
+        "viewpoint": "Image"
+    },
+    "fr": {
+        "index": "N°",
+        "creation_date": "Date",
+        "author": "Auteur",
+        "title": "Titre",
+        "description": "Description",
+        "due_date": "Date d'échéance",
+        "status": "Statut",
+        "priority": "Priorité",
+        "comments": "Commentaires",
+        "viewpoint": "Image"
+    }
+}
+
 
 
 def is_valid(schema_name, xml, raise_exception=False):
@@ -96,86 +123,90 @@ def to_zip(topics, comments, viewpoints):
     return zip_file
 
 
-def to_xls(topics, comments, viewpoints):
+def to_xls(topics, comments, viewpoints, lang = "en"):
     """
     topics: list of topics (dict parsed from BCF-API json)
     comments: dict(topics_guid=[comment])
     viewpoints: dict(topics_guid=[viewpoint])
     """
-    workbook = xlsxwriter.Workbook("bcf-export.xlsx")
-    worksheet = workbook.add_worksheet()
+    xls_file = io.BytesIO()
+    with xlsxwriter.Workbook(xls_file) as workbook:
+        worksheet = workbook.add_worksheet()
 
-    headerFmt = workbook.add_format({ "align": "center", "bold": True, "bg_color": "#C0C0C0" })
-    baseFmt = workbook.add_format({ "valign": "top" })
-    dateFmt = workbook.add_format({ "valign": "top", "num_format": "yyyy-mm-dd" })
+        header_fmt = workbook.add_format({ "align": "center", "bold": True, "bg_color": "#C0C0C0" })
+        base_fmt = workbook.add_format({ "valign": "top" })
+        date_fmt = workbook.add_format({ "valign": "top", "num_format": "yyyy-mm-dd" })
+        comments_fmt = workbook.add_format({ "valign": "top", "text_wrap": True })
 
-    row = 0
+        headers = XLS_HEADER_TRANSLATIONS[lang]
+        row = 0
 
-    # TODO: add spreadsheet metadata
+        # TODO: add spreadsheet metadata (e.g. project, models, user, ...)
 
-    # Create table header
-    worksheet.write(row, 0, "N°",              headerFmt)
-    worksheet.write(row, 1, "Index",           headerFmt)
-    worksheet.write(row, 2, "Date",            headerFmt)
-    worksheet.write(row, 3, "Auteur",          headerFmt)
-    worksheet.write(row, 4, "Titre",           headerFmt)
-    worksheet.write(row, 5, "Description",     headerFmt)
-    worksheet.write(row, 6, "Date d'échéance", headerFmt)
-    worksheet.write(row, 7, "Statut",          headerFmt)
-    worksheet.write(row, 8, "Priorité",        headerFmt)
-    worksheet.write(row, 9, "Image",           headerFmt)
-    row += 1
-
-    # Create topic rows
-    for topic in topics:
-        topic_guid = topic["guid"]
-        topic_comments = comments.get(topic_guid, [])
-        topic_viewpoints = viewpoints.get(topic_guid, [])
-
-        worksheet.write(row, 0, row, baseFmt)
-        worksheet.write(row, 1, topic.get("index"), baseFmt)
-
-        creation_date = topic.get("creation_date")
-        if creation_date:
-            creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%S.%fZ")
-            worksheet.write_datetime(row, 2, creation_date, dateFmt)
-
-        worksheet.write(row, 3, topic.get("creation_author"), baseFmt)
-        worksheet.write(row, 4, topic.get("title"), baseFmt)
-        worksheet.write(row, 5, topic.get("description"), baseFmt)
-
-        due_date = topic.get("due_date")
-        if due_date:
-            due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%SZ")
-            worksheet.write_datetime(row, 6, due_date, dateFmt)
-
-        worksheet.write(row, 7, topic.get("topic_status"), baseFmt)
-        worksheet.write(row, 8, topic.get("priority"), baseFmt)
-
-        for viewpoint in topic_viewpoints:
-            if viewpoint.get("snapshot"):
-                snapshot = viewpoint.get("snapshot").get("snapshot_data")
-                img_file = "snapshot-"+viewpoint["guid"]+".png"
-                if ";base64," in snapshot:
-                    _, img_data = snapshot.split(";base64,")
-                    img_data = base64.b64decode(img_data)
-                else:
-                    img_data = requests.get(snapshot).content
-
-                with open(img_file, "wb") as f:
-                    f.write(img_data)
-                with Image.open(img_file) as img:
-                    width, height = img.size
-                scale = 300 / width
-
-                worksheet.set_column_pixels(9, 9, 300)
-                worksheet.set_row_pixels(row, height * scale)
-                worksheet.insert_image(row, 9, img_file, { "x_scale": scale, "y_scale": scale })
-
-                row += 1
-
+        # Create table header
+        worksheet.write(row, 0, headers["index"],         header_fmt)
+        worksheet.write(row, 1, headers["creation_date"], header_fmt)
+        worksheet.write(row, 2, headers["author"],        header_fmt)
+        worksheet.write(row, 3, headers["title"],         header_fmt)
+        worksheet.write(row, 4, headers["description"],   header_fmt)
+        worksheet.write(row, 5, headers["due_date"],      header_fmt)
+        worksheet.write(row, 6, headers["status"],        header_fmt)
+        worksheet.write(row, 7, headers["priority"],      header_fmt)
+        worksheet.write(row, 8, headers["comments"],      header_fmt)
+        worksheet.write(row, 9, headers["viewpoint"],     header_fmt)
+        worksheet.set_column_pixels(8, 8, 300)
+        worksheet.set_column_pixels(9, 9, 300)
         row += 1
 
-    worksheet.autofit()
+        # Create topic rows
+        for topic in topics:
+            topic_guid = topic["guid"]
+            topic_comments = comments.get(topic_guid, [])
+            topic_viewpoints = viewpoints.get(topic_guid, [])
+
+            worksheet.write(row, 0, topic.get("index"), base_fmt)
+            creation_date = topic.get("creation_date")
+            if creation_date:
+                if isinstance(creation_date, str):
+                    creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+                worksheet.write_datetime(row, 1, creation_date, date_fmt)
+            worksheet.write(row, 2, topic.get("creation_author"), base_fmt)
+            worksheet.write(row, 3, topic.get("title"), base_fmt)
+            worksheet.write(row, 4, topic.get("description"), base_fmt)
+            due_date = topic.get("due_date")
+            if due_date:
+                if isinstance(due_date, str):
+                    due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%SZ")
+                worksheet.write_datetime(row, 5, due_date, date_fmt)
+            worksheet.write(row, 6, topic.get("topic_status"), base_fmt)
+            worksheet.write(row, 7, topic.get("priority"), base_fmt)
+
+            concatenated_comments = ""
+            for comment in topic_comments:
+                concatenated_comments += f"[{comment['date']}] {comment['author']}: {comment['comment']}\n"
+            worksheet.write(row, 8, concatenated_comments, comments_fmt)
+
+            if len(topic_viewpoints):
+                viewpoint = topic_viewpoints[0]
+                if viewpoint.get("snapshot"):
+                    snapshot = viewpoint.get("snapshot").get("snapshot_data")
+                    if ";base64," in snapshot:
+                        _, img_data = snapshot.split(";base64,")
+                        img_data = base64.b64decode(img_data)
+                    else:
+                        img_data = requests.get(snapshot).content
+                    img_data = io.BytesIO(img_data)
+
+                    with Image.open(img_data) as img:
+                        width, height = img.size
+                    scale = 300 / width
+
+                    worksheet.set_row_pixels(row, height * scale)
+                    worksheet.insert_image(row, 9, "snapshot.png", { "image_data": img_data, "x_scale": scale, "y_scale": scale })
+
+            row += 1
+
+        worksheet.autofit()
 
     workbook.close()
+    return xls_file

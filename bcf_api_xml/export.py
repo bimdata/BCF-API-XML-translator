@@ -167,16 +167,14 @@ def to_xls(topics, comments, viewpoints, lang = "en"):
             worksheet.write(row, 0, topic.get("index"), base_fmt)
             creation_date = topic.get("creation_date")
             if creation_date:
-                if isinstance(creation_date, str):
-                    creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+                creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%S.%fZ")
                 worksheet.write_datetime(row, 1, creation_date, date_fmt)
             worksheet.write(row, 2, topic.get("creation_author"), base_fmt)
             worksheet.write(row, 3, topic.get("title"), base_fmt)
             worksheet.write(row, 4, topic.get("description"), base_fmt)
             due_date = topic.get("due_date")
             if due_date:
-                if isinstance(due_date, str):
-                    due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%SZ")
+                due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%SZ")
                 worksheet.write_datetime(row, 5, due_date, date_fmt)
             worksheet.write(row, 6, topic.get("topic_status"), base_fmt)
             worksheet.write(row, 7, topic.get("priority"), base_fmt)

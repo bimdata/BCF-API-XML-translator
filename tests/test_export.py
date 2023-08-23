@@ -35,6 +35,8 @@ class TestExportBcfZip:
 
 class TestExportBcfXls:
     def test_export_bcf_xls(self):
+        with open(path.join(DATA_DIR, "space.json"), "r") as space_file:
+            space = json.load(space_file)
         with open(path.join(DATA_DIR, "project.json"), "r") as project_file:
             project = json.load(project_file)
         with open(path.join(DATA_DIR, "models.json"), "r") as models_file:
@@ -46,7 +48,7 @@ class TestExportBcfXls:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        data = export.to_xls(project, models, topics, comments, viewpoints)
+        data = export.to_xls(space, project, models, topics, comments, viewpoints)
         with open("test_bcf_export.xlsx", "wb") as f:
             f.write(data.getvalue())
 

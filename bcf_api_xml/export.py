@@ -1,14 +1,14 @@
 import base64
 import io
-import requests
-import xlsxwriter
 import zipfile
 from datetime import datetime
-from PIL import Image
 from os import path
 
+import requests
+import xlsxwriter
 from lxml import builder
 from lxml import etree
+from PIL import Image
 
 from bcf_api_xml.errors import InvalidBCF
 from bcf_api_xml.models import Comment
@@ -29,7 +29,7 @@ XLS_HEADER_TRANSLATIONS = {
         "status": "Status",
         "priority": "Priority",
         "comments": "Comments",
-        "viewpoint": "Image"
+        "viewpoint": "Image",
     },
     "fr": {
         "index": "N°",
@@ -41,10 +41,9 @@ XLS_HEADER_TRANSLATIONS = {
         "status": "Statut",
         "priority": "Priorité",
         "comments": "Commentaires",
-        "viewpoint": "Image"
-    }
+        "viewpoint": "Image",
+    },
 }
-
 
 
 def is_valid(schema_name, xml, raise_exception=False):
@@ -123,7 +122,7 @@ def to_zip(topics, comments, viewpoints):
     return zip_file
 
 
-def to_xls(topics, comments, viewpoints, lang = "en"):
+def to_xls(project, models, topics, comments, viewpoints, lang="en"):
     """
     topics: list of topics (dict parsed from BCF-API json)
     comments: dict(topics_guid=[comment])
@@ -133,10 +132,12 @@ def to_xls(topics, comments, viewpoints, lang = "en"):
     with xlsxwriter.Workbook(xls_file) as workbook:
         worksheet = workbook.add_worksheet()
 
-        header_fmt = workbook.add_format({ "align": "center", "bold": True, "bg_color": "#C0C0C0" })
-        base_fmt = workbook.add_format({ "valign": "top" })
-        date_fmt = workbook.add_format({ "valign": "top", "num_format": "yyyy-mm-dd" })
-        comments_fmt = workbook.add_format({ "valign": "top", "text_wrap": True })
+        header_fmt = workbook.add_format(
+            {"align": "center", "bold": True, "bg_color": "#C0C0C0"}
+        )
+        base_fmt = workbook.add_format({"valign": "top"})
+        date_fmt = workbook.add_format({"valign": "top", "num_format": "yyyy-mm-dd"})
+        comments_fmt = workbook.add_format({"valign": "top", "text_wrap": True})
 
         headers = XLS_HEADER_TRANSLATIONS[lang]
         row = 0
@@ -144,16 +145,16 @@ def to_xls(topics, comments, viewpoints, lang = "en"):
         # TODO: add spreadsheet metadata (e.g. project, models, user, ...)
 
         # Create table header
-        worksheet.write(row, 0, headers["index"],         header_fmt)
+        worksheet.write(row, 0, headers["index"], header_fmt)
         worksheet.write(row, 1, headers["creation_date"], header_fmt)
-        worksheet.write(row, 2, headers["author"],        header_fmt)
-        worksheet.write(row, 3, headers["title"],         header_fmt)
-        worksheet.write(row, 4, headers["description"],   header_fmt)
-        worksheet.write(row, 5, headers["due_date"],      header_fmt)
-        worksheet.write(row, 6, headers["status"],        header_fmt)
-        worksheet.write(row, 7, headers["priority"],      header_fmt)
-        worksheet.write(row, 8, headers["comments"],      header_fmt)
-        worksheet.write(row, 9, headers["viewpoint"],     header_fmt)
+        worksheet.write(row, 2, headers["author"], header_fmt)
+        worksheet.write(row, 3, headers["title"], header_fmt)
+        worksheet.write(row, 4, headers["description"], header_fmt)
+        worksheet.write(row, 5, headers["due_date"], header_fmt)
+        worksheet.write(row, 6, headers["status"], header_fmt)
+        worksheet.write(row, 7, headers["priority"], header_fmt)
+        worksheet.write(row, 8, headers["comments"], header_fmt)
+        worksheet.write(row, 9, headers["viewpoint"], header_fmt)
         worksheet.set_column_pixels(8, 8, 300)
         worksheet.set_column_pixels(9, 9, 300)
         row += 1
@@ -181,7 +182,9 @@ def to_xls(topics, comments, viewpoints, lang = "en"):
 
             concatenated_comments = ""
             for comment in topic_comments:
-                concatenated_comments += f"[{comment['date']}] {comment['author']}: {comment['comment']}\n"
+                concatenated_comments += (
+                    f"[{comment['date']}] {comment['author']}: {comment['comment']}\n"
+                )
             worksheet.write(row, 8, concatenated_comments, comments_fmt)
 
             if len(topic_viewpoints):
@@ -200,7 +203,12 @@ def to_xls(topics, comments, viewpoints, lang = "en"):
                     scale = 300 / width
 
                     worksheet.set_row_pixels(row, height * scale)
-                    worksheet.insert_image(row, 9, "snapshot.png", { "image_data": img_data, "x_scale": scale, "y_scale": scale })
+                    worksheet.insert_image(
+                        row,
+                        9,
+                        "snapshot.png",
+                        {"image_data": img_data, "x_scale": scale, "y_scale": scale},
+                    )
 
             row += 1
 

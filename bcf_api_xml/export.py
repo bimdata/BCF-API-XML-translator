@@ -17,10 +17,6 @@ from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
 
 
-
-
-
-
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
 XLS_HEADER_TRANSLATIONS = {
@@ -35,8 +31,8 @@ XLS_HEADER_TRANSLATIONS = {
         "priority": "Priority",
         "comments": "Comments",
         "viewpoint": "Image",
-        "models": "Name of model", 
-        "space": "Organisation", 
+        "models": "Name of model",
+        "space": "Organisation",
         "project": "Project",
     },
     "fr": {
@@ -50,10 +46,9 @@ XLS_HEADER_TRANSLATIONS = {
         "priority": "Priorité",
         "comments": "Commentaire du problème",
         "viewpoint": "Image",
-        "models": "Nom du modèle", 
-        "space": "Organisation", 
-        "project": "Project", 
-        
+        "models": "Nom du modèle",
+        "space": "Organisation",
+        "project": "Project",
     },
 }
 
@@ -134,8 +129,6 @@ def to_zip(topics, comments, viewpoints):
     return zip_file
 
 
-
-#TODO add current time
 def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
     """
     topics: list of topics (dict parsed from BCF-API json)
@@ -147,57 +140,55 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
         worksheet = workbook.add_worksheet()
 
         header_fmt = workbook.add_format(
-            {"align": "center", "bold": True, "bg_color": "#C0C0C0", 'border': 1}
+            {"align": "center", "bold": True, "bg_color": "#C0C0C0", "border": 1}
         )
-        base_fmt = workbook.add_format({"valign": "top", 'border': 1})
-        date_fmt = workbook.add_format({"valign": "top", "num_format": "yyyy-mm-dd", 'border': 1})
-        comments_fmt = workbook.add_format({"valign": "top", "text_wrap": True, 'border': 1})
-        header_fmt2 = workbook.add_format(
-            {'border': 1}
+        base_fmt = workbook.add_format({"valign": "top", "border": 1})
+        date_fmt = workbook.add_format(
+            {"valign": "top", "num_format": "yyyy-mm-dd", "border": 1}
         )
+        comments_fmt = workbook.add_format({"valign": "top", "text_wrap": True, "border": 1})
+        header_fmt2 = workbook.add_format({"border": 1})
         base_fm_align = workbook.add_format({"align": "center", "valign": "top"})
 
-
         headers = XLS_HEADER_TRANSLATIONS[lang]
-    
+
         worksheet.set_default_row(75)
 
-
-        #Company Logo followed by date, espace, space, models
+        # Company Logo followed by date, espace, space, models
         row = 0
 
         merge_format_gray = workbook.add_format(
-    {
-        "bold": 1,
-        "border": 1,
-        "align": "center",
-        "valign": "vcenter",
-        "fg_color": "#C0C0C0"
-    }
+            {
+                "bold": 1,
+                "border": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "fg_color": "#C0C0C0",
+            }
         )
 
         merge_format_default = workbook.add_format(
-    {
-        "bold": 1,
-        "border": 1,
-        "align": "center",
-        "valign": "vcenter",
-        "fg_color": "white",
-    }
-)
+            {
+                "bold": 1,
+                "border": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "fg_color": "white",
+            }
+        )
         with Image.open("BIMData.png") as img:
-           width, height = img.size
+            width, height = img.size
         scale = 300 / width
-                       
+
         worksheet.set_row_pixels(row, height * scale)
         worksheet.merge_range("A1:C1", "", merge_format_default)
         worksheet.insert_image(
-                        row,
-                        0, 
-                        "BIMData.png", 
-                        {"x_scale": scale, "y_scale": scale},
+            row,
+            0,
+            "BIMData.png",
+            {"x_scale": scale, "y_scale": scale},
         )
-        worksheet.merge_range("D1:Z1", "", merge_format_gray )
+        worksheet.merge_range("D1:Z1", "", merge_format_gray)
         row += 1
         worksheet.set_row(row, 20)
         row += 1
@@ -205,10 +196,8 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
         worksheet.merge_range("A3:B3", "", merge_format_default)
         worksheet.write(row, 0, headers["project"], header_fmt)
         worksheet.merge_range("C3:Z3", "", merge_format_default)
-        worksheet.write(row, 2, project["name"],  header_fmt2 )
-        
-        
-        
+        worksheet.write(row, 2, project["name"], header_fmt2)
+
         # TODO: add spreadsheet metadata for models
 
         row += 1
@@ -216,9 +205,9 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
         worksheet.merge_range("A4:B4", "", merge_format_default)
         worksheet.write(row, 0, headers["space"], header_fmt)
         worksheet.merge_range("C4:Z4", "", merge_format_default)
-        worksheet.write(row, 2, space["name"],  header_fmt2 )
-       
-        row += 1 
+        worksheet.write(row, 2, space["name"], header_fmt2)
+
+        row += 1
         worksheet.set_row(row, 15)
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
@@ -228,7 +217,6 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
         row += 1
         worksheet.set_row(row, 20)
         row += 1
-
 
         # Create table header
         worksheet.set_row(row, 45)
@@ -253,7 +241,7 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
             topic_comments = comments.get(topic_guid, [])
             topic_viewpoints = viewpoints.get(topic_guid, [])
 
-            worksheet.write(row, 0, topic.get("index"),  base_fm_align)
+            worksheet.write(row, 0, topic.get("index"), base_fm_align)
             creation_date = topic.get("creation_date")
             if creation_date:
                 creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -261,8 +249,8 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
             worksheet.write(row, 2, topic.get("creation_author"), base_fmt)
             worksheet.write(row, 3, topic.get("title"), base_fmt)
             worksheet.write(row, 5, topic.get("description"), base_fmt)
-            due_date = topic.get("due_date") 
-            
+            due_date = topic.get("due_date")
+
             if due_date:
                 due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%SZ")
                 worksheet.write_datetime(row, 6, due_date, date_fmt)
@@ -290,22 +278,19 @@ def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
                     with Image.open(img_data) as img:
                         width, height = img.size
                     scale = 200 / width
-                       
-                    
+
                     worksheet.insert_image(
                         row,
                         4,
                         "snapshot.png",
-                         {"image_data": img_data, "x_scale": scale, "y_scale": scale/1.8},
-                    ) 
-
+                        {"image_data": img_data, "x_scale": scale, "y_scale": scale / 1.8},
+                    )
 
             row += 1
         worksheet.set_column("K:Z", None, None, {"hidden": True})
         worksheet.set_default_row(hide_unused_rows=True)
 
         worksheet.autofit()
-
 
     workbook.close()
     return xls_file

@@ -36,10 +36,14 @@ def to_python(xml):
     if (date := xml.find("Date")) is not None and date.text is not None:
         comment["date"] = parse(date.text)
 
-    if (modified_date := xml.find("ModifiedDate")) is not None and modified_date.text is not None:
+    if (
+        modified_date := xml.find("ModifiedDate")
+    ) is not None and modified_date.text is not None:
         comment["modified_date"] = parse(modified_date.text)
 
-    if (modified_author := xml.find("ModifiedAuthor")) is not None and modified_author.text is not None:
+    if (
+        modified_author := xml.find("ModifiedAuthor")
+    ) is not None and modified_author.text is not None:
         comment["modified_author"] = modified_author.text
 
     return comment

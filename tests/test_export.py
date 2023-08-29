@@ -48,7 +48,7 @@ class TestExportBcfXls:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        data = export.to_xls(space, project, models, topics, comments, viewpoints)
+        data = export.to_xlsx(space, project, models, topics, comments, viewpoints)
         with open("test_bcf_export.xlsx", "wb") as f:
             f.write(data.getvalue())
 

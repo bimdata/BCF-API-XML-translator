@@ -129,7 +129,7 @@ def to_zip(topics, comments, viewpoints):
     return zip_file
 
 
-def to_xls(space, project, models, topics, comments, viewpoints, lang="en"):
+def to_xlsx(space, project, models, topics, comments, viewpoints, lang="en"):
     """
     topics: list of topics (dict parsed from BCF-API json)
     comments: dict(topics_guid=[comment])

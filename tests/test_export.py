@@ -2,7 +2,7 @@ import json
 from os import path
 
 from bcf_api_xml import export
-import os
+
 
 DATA_DIR = path.realpath(path.join(path.dirname(__file__), "./data"))
 
@@ -49,7 +49,7 @@ class TestExportBcfXls:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        with open(os.path.join("tests/BIMData.png"), "rb") as company_logo_content:
+        with open("tests/BIMData.png", "rb") as company_logo_content:
             data = export.to_xlsx(
                 space,
                 project,

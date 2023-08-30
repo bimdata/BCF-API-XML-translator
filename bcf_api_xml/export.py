@@ -16,6 +16,8 @@ from bcf_api_xml.models import Topic
 from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
 
+from datetime import datetime
+
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
@@ -129,7 +131,9 @@ def to_zip(topics, comments, viewpoints):
     return zip_file
 
 
-def to_xlsx(space, project, models, topics, comments, viewpoints, lang="en"):
+def to_xlsx(
+    space, project, models, topics, comments, viewpoints, company_logo_content, lang="en"
+):
     """
     topics: list of topics (dict parsed from BCF-API json)
     comments: dict(topics_guid=[comment])
@@ -176,18 +180,22 @@ def to_xlsx(space, project, models, topics, comments, viewpoints, lang="en"):
                 "fg_color": "white",
             }
         )
-        with Image.open("BIMData.png") as img:
+        company_logo_data = io.BytesIO(company_logo_content)
+
+        with Image.open(company_logo_data) as img:
             width, height = img.size
         scale = 300 / width
 
         worksheet.set_row_pixels(row, height * scale)
         worksheet.merge_range("A1:C1", "", merge_format_default)
+
         worksheet.insert_image(
             row,
             0,
-            "BIMData.png",
-            {"x_scale": scale, "y_scale": scale},
+            "company_logo.png",
+            {"image_data": company_logo_data, "x_scale": scale, "y_scale": scale},
         )
+
         worksheet.merge_range("D1:Z1", "", merge_format_gray)
         row += 1
         worksheet.set_row(row, 20)
@@ -212,7 +220,8 @@ def to_xlsx(space, project, models, topics, comments, viewpoints, lang="en"):
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
         worksheet.merge_range("C5:Z5", "", merge_format_default)
-        worksheet.write(row, 2, "current_time", header_fmt2)
+        current_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        worksheet.write(row, 2, current_time, header_fmt2)
 
         row += 1
         worksheet.set_row(row, 20)
@@ -292,5 +301,4 @@ def to_xlsx(space, project, models, topics, comments, viewpoints, lang="en"):
 
         worksheet.autofit()
 
-    workbook.close()
     return xls_file

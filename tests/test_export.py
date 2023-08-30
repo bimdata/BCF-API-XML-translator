@@ -3,6 +3,7 @@ from os import path
 
 from bcf_api_xml import export
 
+
 DATA_DIR = path.realpath(path.join(path.dirname(__file__), "./data"))
 
 
@@ -48,9 +49,18 @@ class TestExportBcfXls:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        data = export.to_xlsx(space, project, models, topics, comments, viewpoints)
-        with open("test_bcf_export.xlsx", "wb") as f:
-            f.write(data.getvalue())
+        with open("tests/BIMData.png", "rb") as company_logo_content:
+            data = export.to_xlsx(
+                space,
+                project,
+                models,
+                topics,
+                comments,
+                viewpoints,
+                company_logo_content.read(),
+            )
+            with open("test_bcf_export.xlsx", "wb") as f:
+                f.write(data.getvalue())
 
 
 if __name__ == "__main__":

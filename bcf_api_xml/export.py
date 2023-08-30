@@ -16,8 +16,8 @@ from bcf_api_xml.models import Topic
 from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
 
-from datetime import datetime 
- 
+from datetime import datetime
+
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
@@ -130,7 +130,10 @@ def to_zip(topics, comments, viewpoints):
                         zf.writestr(topic_dir + snapshot_name, base64.b64decode(data))
     return zip_file
 
-def to_xlsx(space, project, models, topics, comments, viewpoints, company_logo_content, lang="en"):
+
+def to_xlsx(
+    space, project, models, topics, comments, viewpoints, company_logo_content, lang="en"
+):
     """
     topics: list of topics (dict parsed from BCF-API json)
     comments: dict(topics_guid=[comment])
@@ -185,7 +188,7 @@ def to_xlsx(space, project, models, topics, comments, viewpoints, company_logo_c
 
         worksheet.set_row_pixels(row, height * scale)
         worksheet.merge_range("A1:C1", "", merge_format_default)
-    
+
         worksheet.insert_image(
             row,
             0,
@@ -298,5 +301,4 @@ def to_xlsx(space, project, models, topics, comments, viewpoints, company_logo_c
 
         worksheet.autofit()
 
-   
     return xls_file

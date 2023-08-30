@@ -50,7 +50,7 @@ class TestExportBcfXls:
         with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
-        with open(os.path.join("BIMData.png"), "rb") as company_logo_content:
+        with open(os.path.join("tests/BIMData.png"), "rb") as company_logo_content:
             data = export.to_xlsx(
                 space,
                 project,

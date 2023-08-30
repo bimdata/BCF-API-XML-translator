@@ -16,7 +16,7 @@ from bcf_api_xml.models import Topic
 from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
 
-import datetime
+from datetime import datetime 
  
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
@@ -217,7 +217,7 @@ def to_xlsx(space, project, models, topics, comments, viewpoints, company_logo_c
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
         worksheet.merge_range("C5:Z5", "", merge_format_default)
-        current_time =  datetime.datetime.now()
+        current_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
         worksheet.write(row, 2, current_time, header_fmt2)
 
         row += 1

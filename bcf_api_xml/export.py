@@ -16,8 +16,6 @@ from bcf_api_xml.models import Topic
 from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
 
-from datetime import datetime
-
 
 SCHEMA_DIR = path.realpath(path.join(path.dirname(__file__), "Schemas"))
 
@@ -253,7 +251,7 @@ def to_xlsx(
             worksheet.write(row, 0, topic.get("index"), base_fm_align)
             creation_date = topic.get("creation_date")
             if creation_date:
-                creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+                creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%SZ")
                 worksheet.write_datetime(row, 1, creation_date, date_fmt)
             worksheet.write(row, 2, topic.get("creation_author"), base_fmt)
             worksheet.write(row, 3, topic.get("title"), base_fmt)

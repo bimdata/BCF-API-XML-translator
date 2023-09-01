@@ -2,6 +2,7 @@ import base64
 import io
 import zipfile
 from datetime import datetime
+from dateutil import parser
 from os import path
 
 import requests
@@ -138,7 +139,7 @@ def to_xlsx(
     viewpoints: dict(topics_guid=[viewpoint])
     """
     xls_file = io.BytesIO()
-    with xlsxwriter.Workbook(xls_file) as workbook:
+    with xlsxwriter.Workbook(xls_file, options={'remove_timezone': True}) as workbook:
         worksheet = workbook.add_worksheet()
 
         header_fmt = workbook.add_format(
@@ -251,7 +252,7 @@ def to_xlsx(
             worksheet.write(row, 0, topic.get("index"), base_fm_align)
             creation_date = topic.get("creation_date")
             if creation_date:
-                creation_date = datetime.strptime(creation_date, "%Y-%m-%dT%H:%M:%SZ")
+                creation_date = parser.parse(creation_date)
                 worksheet.write_datetime(row, 1, creation_date, date_fmt)
             worksheet.write(row, 2, topic.get("creation_author"), base_fmt)
             worksheet.write(row, 3, topic.get("title"), base_fmt)
@@ -259,7 +260,7 @@ def to_xlsx(
             due_date = topic.get("due_date")
 
             if due_date:
-                due_date = datetime.strptime(due_date, "%Y-%m-%dT%H:%M:%SZ")
+                due_date = parser.parse(due_date)
                 worksheet.write_datetime(row, 6, due_date, date_fmt)
             worksheet.write(row, 7, topic.get("topic_status"), base_fmt)
             worksheet.write(row, 8, topic.get("priority"), base_fmt)

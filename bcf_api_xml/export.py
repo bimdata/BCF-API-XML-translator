@@ -2,11 +2,11 @@ import base64
 import io
 import zipfile
 from datetime import datetime
-from dateutil import parser
 from os import path
 
 import requests
 import xlsxwriter
+from dateutil import parser
 from lxml import builder
 from lxml import etree
 from PIL import Image
@@ -139,24 +139,29 @@ def to_xlsx(
     viewpoints: dict(topics_guid=[viewpoint])
     """
     xls_file = io.BytesIO()
-    with xlsxwriter.Workbook(xls_file, options={'remove_timezone': True}) as workbook:
+    with xlsxwriter.Workbook(xls_file, options={"remove_timezone": True}) as workbook:
         worksheet = workbook.add_worksheet()
 
         header_fmt = workbook.add_format(
             {"align": "center", "bold": True, "bg_color": "#C0C0C0", "border": 1}
         )
         base_fmt = workbook.add_format({"valign": "top", "border": 1})
-        date_fmt = workbook.add_format(
-            {"valign": "top", "num_format": "yyyy-mm-dd", "border": 1}
-        )
+        if lang == "fr":
+            date_fmt = workbook.add_format(
+                {"valign": "top", "num_format": "dd/mm/yyyy", "border": 1}
+            )
+        else:
+            date_fmt = workbook.add_format(
+                {"valign": "top", "num_format": "yyyy-mm-dd", "border": 1}
+            )
+
         comments_fmt = workbook.add_format({"valign": "top", "text_wrap": True, "border": 1})
         header_fmt2 = workbook.add_format({"border": 1})
         base_fm_align = workbook.add_format({"align": "center", "valign": "top"})
 
         headers = XLS_HEADER_TRANSLATIONS[lang]
 
-        worksheet.set_default_row(75)
-
+        worksheet.set_default_row(120)
         # Company Logo followed by date, espace, space, models
         row = 0
 
@@ -198,6 +203,7 @@ def to_xlsx(
         worksheet.merge_range("D1:Z1", "", merge_format_gray)
         row += 1
         worksheet.set_row(row, 20)
+        worksheet.merge_range("A2:Z2", "", merge_format_default)
         row += 1
         worksheet.set_row(row, 15)
         worksheet.merge_range("A3:B3", "", merge_format_default)
@@ -219,11 +225,15 @@ def to_xlsx(
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
         worksheet.merge_range("C5:Z5", "", merge_format_default)
-        current_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        if lang == "fr":
+            current_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        else:
+            current_time = datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
         worksheet.write(row, 2, current_time, header_fmt2)
 
         row += 1
         worksheet.set_row(row, 20)
+        worksheet.merge_range("A6:Z6", "", merge_format_default)
         row += 1
 
         # Create table header
@@ -262,13 +272,21 @@ def to_xlsx(
             if due_date:
                 due_date = parser.parse(due_date)
                 worksheet.write_datetime(row, 6, due_date, date_fmt)
+            else:
+                worksheet.write(row, 6, "", base_fmt)
             worksheet.write(row, 7, topic.get("topic_status"), base_fmt)
             worksheet.write(row, 8, topic.get("priority"), base_fmt)
 
             concatenated_comments = ""
+
             for comment in topic_comments:
+                comment_date = parser.parse(comment["date"])
+                if lang == "fr":
+                    comment_date = comment_date.strftime("%d/%m/%Y, %H:%M:%S")
+                else:
+                    comment_date = comment_date.strftime("%Y-%m-%d, %H:%M:%S")
                 concatenated_comments += (
-                    f"[{comment['date']}] {comment['author']}: {comment['comment']}\n"
+                    f"[{comment_date}] {comment['author']}: {comment['comment']}\n"
                 )
             worksheet.write(row, 9, concatenated_comments, comments_fmt)
 
@@ -285,14 +303,18 @@ def to_xlsx(
 
                     with Image.open(img_data) as img:
                         width, height = img.size
-                    scale = 200 / width
+                        if width > height:
+                            scale = 215 / width
+                        else:
+                            scale = 215 / height
 
                     worksheet.insert_image(
                         row,
                         4,
                         "snapshot.png",
-                        {"image_data": img_data, "x_scale": scale, "y_scale": scale / 1.8},
+                        {"image_data": img_data, "x_scale": scale, "y_scale": scale},
                     )
+            worksheet.write(row, 4, "", base_fmt)
 
             row += 1
         worksheet.set_column("K:Z", None, None, {"hidden": True})

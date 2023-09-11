@@ -205,7 +205,7 @@ def to_xlsx(
         worksheet.set_row(row, 20)
         worksheet.merge_range("A2:Z2", "", merge_format_default)
         row += 1
-        worksheet.set_row(row, 15)
+        worksheet.set_row_pixels(row, 19)
         worksheet.merge_range("A3:B3", "", merge_format_default)
         worksheet.write(row, 0, headers["project"], header_fmt)
         worksheet.merge_range("C3:Z3", "", merge_format_default)
@@ -214,14 +214,14 @@ def to_xlsx(
         # TODO: add spreadsheet metadata for models
 
         row += 1
-        worksheet.set_row(row, 15)
+        worksheet.set_row_pixels(row, 19)
         worksheet.merge_range("A4:B4", "", merge_format_default)
         worksheet.write(row, 0, headers["space"], header_fmt)
         worksheet.merge_range("C4:Z4", "", merge_format_default)
         worksheet.write(row, 2, space["name"], header_fmt2)
 
         row += 1
-        worksheet.set_row(row, 15)
+        worksheet.set_row_pixels(row, 19)
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
         worksheet.merge_range("C5:Z5", "", merge_format_default)
@@ -306,7 +306,7 @@ def to_xlsx(
                         if width > height:
                             scale = 215 / width
                         else:
-                            scale = 215 / height
+                            scale = 160 / height
 
                     worksheet.insert_image(
                         row,

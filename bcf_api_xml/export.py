@@ -161,7 +161,12 @@ def to_xlsx(
 
         headers = XLS_HEADER_TRANSLATIONS[lang]
 
-        worksheet.set_default_row(120)
+        # Set default height for tables
+        # Set_default_row_pixel() does not exist so for scalinf in images I used a constant of proportionality between pixel length and xlsx writer own length
+        CONSTANT_OF_PROPORTIONALITY_BETWEEN_PIXELS_FOR_ROWS = 1.32
+        DEFAULT_CELL_HEIGHT = 120
+        worksheet.set_default_row(DEFAULT_CELL_HEIGHT)
+
         # Company Logo followed by date, espace, space, models
         row = 0
 
@@ -200,12 +205,15 @@ def to_xlsx(
             {"image_data": company_logo_data, "x_scale": scale, "y_scale": scale},
         )
 
+        # Set model data cell height
+        ROW_HEIGHT = 19
+
         worksheet.merge_range("D1:Z1", "", merge_format_gray)
         row += 1
         worksheet.set_row(row, 20)
         worksheet.merge_range("A2:Z2", "", merge_format_default)
         row += 1
-        worksheet.set_row_pixels(row, 19)
+        worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A3:B3", "", merge_format_default)
         worksheet.write(row, 0, headers["project"], header_fmt)
         worksheet.merge_range("C3:Z3", "", merge_format_default)
@@ -214,14 +222,14 @@ def to_xlsx(
         # TODO: add spreadsheet metadata for models
 
         row += 1
-        worksheet.set_row_pixels(row, 19)
+        worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A4:B4", "", merge_format_default)
         worksheet.write(row, 0, headers["space"], header_fmt)
         worksheet.merge_range("C4:Z4", "", merge_format_default)
         worksheet.write(row, 2, space["name"], header_fmt2)
 
         row += 1
-        worksheet.set_row_pixels(row, 19)
+        worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
         worksheet.merge_range("C5:Z5", "", merge_format_default)
@@ -236,8 +244,11 @@ def to_xlsx(
         worksheet.merge_range("A6:Z6", "", merge_format_default)
         row += 1
 
+        # SET table header row height
+        TABLE_HEADER_HEIGHT = 45
+        worksheet.set_row(row, TABLE_HEADER_HEIGHT)
+
         # Create table header
-        worksheet.set_row(row, 45)
         worksheet.write(row, 0, headers["index"], header_fmt)
         worksheet.write(row, 1, headers["creation_date"], header_fmt)
         worksheet.write(row, 2, headers["author"], header_fmt)
@@ -252,7 +263,10 @@ def to_xlsx(
         worksheet.set_column_pixels(9, 9, 200)
         row += 1
 
-        worksheet.set_column(4, 4, 30)
+        # Set image cell width
+        IMAGE_COLUMN_WIDTH = 220
+        worksheet.set_column_pixels(4, 4, IMAGE_COLUMN_WIDTH)
+
         # Create topic rows
         for topic in topics:
             topic_guid = topic["guid"]
@@ -304,9 +318,13 @@ def to_xlsx(
                     with Image.open(img_data) as img:
                         width, height = img.size
                         if width > height:
-                            scale = 215 / width
+                            scale = IMAGE_COLUMN_WIDTH / width
                         else:
-                            scale = 160 / height
+                            scale = (
+                                CONSTANT_OF_PROPORTIONALITY_BETWEEN_PIXELS_FOR_ROWS
+                                * DEFAULT_CELL_HEIGHT
+                                / height
+                            )
 
                     worksheet.insert_image(
                         row,

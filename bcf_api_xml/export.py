@@ -142,6 +142,24 @@ def to_xlsx(
     with xlsxwriter.Workbook(xls_file, options={"remove_timezone": True}) as workbook:
         worksheet = workbook.add_worksheet()
 
+        # Set default height for tables
+        DEFAULT_CELL_HEIGHT = 220
+        DEFAULT_NUMBER_OF_ITERATIONS = 100
+        for row in range(DEFAULT_NUMBER_OF_ITERATIONS):
+            worksheet.set_row_pixels(row, DEFAULT_CELL_HEIGHT)
+            row += 1
+
+        # SET table header row height
+        TABLE_HEADER_HEIGHT = 45
+        worksheet.set_row(row, TABLE_HEADER_HEIGHT)
+
+        # Set model data cell height
+        ROW_HEIGHT = 19
+
+        # Set image cell width
+        IMAGE_COLUMN_WIDTH = 220
+        worksheet.set_column_pixels(4, 4, IMAGE_COLUMN_WIDTH)
+
         header_fmt = workbook.add_format(
             {"align": "center", "bold": True, "bg_color": "#C0C0C0", "border": 1}
         )
@@ -160,12 +178,6 @@ def to_xlsx(
         base_fm_align = workbook.add_format({"align": "center", "valign": "top"})
 
         headers = XLS_HEADER_TRANSLATIONS[lang]
-
-        # Set default height for tables
-        # Set_default_row_pixel() does not exist so for scalinf in images I used a constant of proportionality between pixel length and xlsx writer own length
-        CONSTANT_OF_PROPORTIONALITY_BETWEEN_PIXELS_FOR_ROWS = 1.32
-        DEFAULT_CELL_HEIGHT = 120
-        worksheet.set_default_row(DEFAULT_CELL_HEIGHT)
 
         # Company Logo followed by date, espace, space, models
         row = 0
@@ -205,9 +217,6 @@ def to_xlsx(
             {"image_data": company_logo_data, "x_scale": scale, "y_scale": scale},
         )
 
-        # Set model data cell height
-        ROW_HEIGHT = 19
-
         worksheet.merge_range("D1:Z1", "", merge_format_gray)
         row += 1
         worksheet.set_row(row, 20)
@@ -244,10 +253,6 @@ def to_xlsx(
         worksheet.merge_range("A6:Z6", "", merge_format_default)
         row += 1
 
-        # SET table header row height
-        TABLE_HEADER_HEIGHT = 45
-        worksheet.set_row(row, TABLE_HEADER_HEIGHT)
-
         # Create table header
         worksheet.write(row, 0, headers["index"], header_fmt)
         worksheet.write(row, 1, headers["creation_date"], header_fmt)
@@ -262,10 +267,6 @@ def to_xlsx(
         worksheet.set_column_pixels(8, 8, 100)
         worksheet.set_column_pixels(9, 9, 200)
         row += 1
-
-        # Set image cell width
-        IMAGE_COLUMN_WIDTH = 220
-        worksheet.set_column_pixels(4, 4, IMAGE_COLUMN_WIDTH)
 
         # Create topic rows
         for topic in topics:
@@ -317,20 +318,30 @@ def to_xlsx(
 
                     with Image.open(img_data) as img:
                         width, height = img.size
+                        width_ = width
+                        height_ = height
+                        ratio = width / height
                         if width > height:
-                            scale = IMAGE_COLUMN_WIDTH / width
+                            width = IMAGE_COLUMN_WIDTH
+                            height = (1 / ratio) * IMAGE_COLUMN_WIDTH
+                            if height > IMAGE_COLUMN_WIDTH:
+                                while height > IMAGE_COLUMN_WIDTH:
+                                    height = width
+                                    width = ratio * height
                         else:
-                            scale = (
-                                CONSTANT_OF_PROPORTIONALITY_BETWEEN_PIXELS_FOR_ROWS
-                                * DEFAULT_CELL_HEIGHT
-                                / height
-                            )
-
+                            height = DEFAULT_CELL_HEIGHT
+                            width = ratio * DEFAULT_CELL_HEIGHT
+                            if width > DEFAULT_CELL_HEIGHT:
+                                while width > DEFAULT_CELL_HEIGHT:
+                                    width = height
+                                    height = (1 / ratio) * width
+                        x_scale = width / width_
+                        y_scale = height / height_
                     worksheet.insert_image(
                         row,
                         4,
                         "snapshot.png",
-                        {"image_data": img_data, "x_scale": scale, "y_scale": scale},
+                        {"image_data": img_data, "x_scale": x_scale, "y_scale": y_scale},
                     )
             worksheet.write(row, 4, "", base_fmt)
 

@@ -142,6 +142,23 @@ def to_xlsx(
     with xlsxwriter.Workbook(xls_file, options={"remove_timezone": True}) as workbook:
         worksheet = workbook.add_worksheet()
 
+        # Set default height for tables
+        DEFAULT_CELL_HEIGHT = 220
+        DEFAULT_NUMBER_OF_ITERATIONS = 100
+        for row in range(DEFAULT_NUMBER_OF_ITERATIONS):
+            worksheet.set_row_pixels(row, DEFAULT_CELL_HEIGHT)
+            row += 1
+
+        # Set table header row height constant
+        TABLE_HEADER_HEIGHT = 45
+
+        # Set model data cell height
+        ROW_HEIGHT = 19
+
+        # Set image cell width
+        IMAGE_COLUMN_WIDTH = 220
+        worksheet.set_column_pixels(4, 4, IMAGE_COLUMN_WIDTH)
+
         header_fmt = workbook.add_format(
             {"align": "center", "bold": True, "bg_color": "#C0C0C0", "border": 1}
         )
@@ -161,7 +178,6 @@ def to_xlsx(
 
         headers = XLS_HEADER_TRANSLATIONS[lang]
 
-        worksheet.set_default_row(120)
         # Company Logo followed by date, espace, space, models
         row = 0
 
@@ -186,18 +202,25 @@ def to_xlsx(
         )
         company_logo_data = io.BytesIO(company_logo_content)
 
+        # Logo is scaled in a symplistic manner based on BIMData logo, if used with another image with different ratio it may be ugly
         with Image.open(company_logo_data) as img:
             width, height = img.size
         scale = 300 / width
 
-        worksheet.set_row_pixels(row, height * scale)
+        worksheet.set_row_pixels(
+            row, height * scale + 1
+        )  # +1 increase height of cell by one pixel to not overlap logo
         worksheet.merge_range("A1:C1", "", merge_format_default)
 
         worksheet.insert_image(
             row,
             0,
             "company_logo.png",
-            {"image_data": company_logo_data, "x_scale": scale, "y_scale": scale},
+            {
+                "image_data": company_logo_data,
+                "x_scale": scale,
+                "y_scale": scale,
+            },
         )
 
         worksheet.merge_range("D1:Z1", "", merge_format_gray)
@@ -205,7 +228,7 @@ def to_xlsx(
         worksheet.set_row(row, 20)
         worksheet.merge_range("A2:Z2", "", merge_format_default)
         row += 1
-        worksheet.set_row(row, 15)
+        worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A3:B3", "", merge_format_default)
         worksheet.write(row, 0, headers["project"], header_fmt)
         worksheet.merge_range("C3:Z3", "", merge_format_default)
@@ -214,14 +237,14 @@ def to_xlsx(
         # TODO: add spreadsheet metadata for models
 
         row += 1
-        worksheet.set_row(row, 15)
+        worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A4:B4", "", merge_format_default)
         worksheet.write(row, 0, headers["space"], header_fmt)
         worksheet.merge_range("C4:Z4", "", merge_format_default)
         worksheet.write(row, 2, space["name"], header_fmt2)
 
         row += 1
-        worksheet.set_row(row, 15)
+        worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
         worksheet.merge_range("C5:Z5", "", merge_format_default)
@@ -236,8 +259,10 @@ def to_xlsx(
         worksheet.merge_range("A6:Z6", "", merge_format_default)
         row += 1
 
+        # Set topic row height
+        worksheet.set_row(row, TABLE_HEADER_HEIGHT)
+
         # Create table header
-        worksheet.set_row(row, 45)
         worksheet.write(row, 0, headers["index"], header_fmt)
         worksheet.write(row, 1, headers["creation_date"], header_fmt)
         worksheet.write(row, 2, headers["author"], header_fmt)
@@ -252,7 +277,6 @@ def to_xlsx(
         worksheet.set_column_pixels(9, 9, 200)
         row += 1
 
-        worksheet.set_column(4, 4, 30)
         # Create topic rows
         for topic in topics:
             topic_guid = topic["guid"]
@@ -303,17 +327,25 @@ def to_xlsx(
 
                     with Image.open(img_data) as img:
                         width, height = img.size
-                        if width > height:
-                            scale = 215 / width
-                        else:
-                            scale = 215 / height
-
-                    worksheet.insert_image(
-                        row,
-                        4,
-                        "snapshot.png",
-                        {"image_data": img_data, "x_scale": scale, "y_scale": scale},
-                    )
+                        ratios = (
+                            float(IMAGE_COLUMN_WIDTH - 1)
+                            / width,  # -1 decrease width by one pixel to not overlap with cell delimiter
+                            float(DEFAULT_CELL_HEIGHT - 1)
+                            / height,  # -1 decrease height by one pixel to not overlap with cell delimiter
+                        )
+                        scale = min(ratios)
+                        worksheet.insert_image(
+                            row,
+                            4,
+                            "snapshot.png",
+                            {
+                                "image_data": img_data,
+                                "x_scale": scale,
+                                "y_scale": scale,
+                                "x_offset": 1,  # Offset image to avoid overlap with cell delimter
+                                "y_offset": 1,  # Offset image to avoid overlap with cell delimter
+                            },
+                        )
             worksheet.write(row, 4, "", base_fmt)
 
             row += 1

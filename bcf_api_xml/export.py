@@ -202,18 +202,23 @@ def to_xlsx(
         )
         company_logo_data = io.BytesIO(company_logo_content)
 
+        # Logo is scaled in a symplistic manner based on BIMData logo, if used with another image with different ratio it may be ugly
         with Image.open(company_logo_data) as img:
             width, height = img.size
         scale = 300 / width
 
-        worksheet.set_row_pixels(row, height * scale)
+        worksheet.set_row_pixels(row, height * scale + 1)
         worksheet.merge_range("A1:C1", "", merge_format_default)
 
         worksheet.insert_image(
             row,
             0,
             "company_logo.png",
-            {"image_data": company_logo_data, "x_scale": scale, "y_scale": scale},
+            {
+                "image_data": company_logo_data,
+                "x_scale": scale,
+                "y_scale": scale,
+            },
         )
 
         worksheet.merge_range("D1:Z1", "", merge_format_gray)
@@ -321,15 +326,21 @@ def to_xlsx(
                     with Image.open(img_data) as img:
                         width, height = img.size
                         ratios = (
-                            float(IMAGE_COLUMN_WIDTH) / width,
-                            float(DEFAULT_CELL_HEIGHT) / height,
+                            float(IMAGE_COLUMN_WIDTH - 1) / width,
+                            float(DEFAULT_CELL_HEIGHT - 1) / height,
                         )
                         scale = min(ratios)
                         worksheet.insert_image(
                             row,
                             4,
                             "snapshot.png",
-                            {"image_data": img_data, "x_scale": scale, "y_scale": scale},
+                            {
+                                "image_data": img_data,
+                                "x_scale": scale,
+                                "y_scale": scale,
+                                "x_offset": 1,
+                                "y_offset": 1,
+                            },
                         )
             worksheet.write(row, 4, "", base_fmt)
 

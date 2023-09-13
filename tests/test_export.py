@@ -46,7 +46,7 @@ class TestExportBcfXls:
             topics = json.load(topics_file)
         with open(path.join(DATA_DIR, "comments.json"), "r") as comments_file:
             comments = json.load(comments_file)
-        with open(path.join(DATA_DIR, "viewpoints.json"), "r") as viewpoints_file:
+        with open(path.join(DATA_DIR, "viewpoints2.json"), "r") as viewpoints_file:
             viewpoints = json.load(viewpoints_file)
 
         with open("tests/BIMData.png", "rb") as company_logo_content:

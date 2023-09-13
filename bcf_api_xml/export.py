@@ -149,9 +149,8 @@ def to_xlsx(
             worksheet.set_row_pixels(row, DEFAULT_CELL_HEIGHT)
             row += 1
 
-        # SET table header row height
+        # Set table header row height constant
         TABLE_HEADER_HEIGHT = 45
-        worksheet.set_row(row, TABLE_HEADER_HEIGHT)
 
         # Set model data cell height
         ROW_HEIGHT = 19
@@ -253,6 +252,9 @@ def to_xlsx(
         worksheet.merge_range("A6:Z6", "", merge_format_default)
         row += 1
 
+        # Set topic row height
+        worksheet.set_row(row, TABLE_HEADER_HEIGHT)
+
         # Create table header
         worksheet.write(row, 0, headers["index"], header_fmt)
         worksheet.write(row, 1, headers["creation_date"], header_fmt)
@@ -318,31 +320,17 @@ def to_xlsx(
 
                     with Image.open(img_data) as img:
                         width, height = img.size
-                        width_ = width
-                        height_ = height
-                        ratio = width / height
-                        if width > height:
-                            width = IMAGE_COLUMN_WIDTH
-                            height = (1 / ratio) * IMAGE_COLUMN_WIDTH
-                            if height > IMAGE_COLUMN_WIDTH:
-                                while height > IMAGE_COLUMN_WIDTH:
-                                    height = width
-                                    width = ratio * height
-                        else:
-                            height = DEFAULT_CELL_HEIGHT
-                            width = ratio * DEFAULT_CELL_HEIGHT
-                            if width > DEFAULT_CELL_HEIGHT:
-                                while width > DEFAULT_CELL_HEIGHT:
-                                    width = height
-                                    height = (1 / ratio) * width
-                        x_scale = width / width_
-                        y_scale = height / height_
-                    worksheet.insert_image(
-                        row,
-                        4,
-                        "snapshot.png",
-                        {"image_data": img_data, "x_scale": x_scale, "y_scale": y_scale},
-                    )
+                        ratios = (
+                            float(IMAGE_COLUMN_WIDTH) / width,
+                            float(DEFAULT_CELL_HEIGHT) / height,
+                        )
+                        scale = min(ratios)
+                        worksheet.insert_image(
+                            row,
+                            4,
+                            "snapshot.png",
+                            {"image_data": img_data, "x_scale": scale, "y_scale": scale},
+                        )
             worksheet.write(row, 4, "", base_fmt)
 
             row += 1

@@ -207,7 +207,9 @@ def to_xlsx(
             width, height = img.size
         scale = 300 / width
 
-        worksheet.set_row_pixels(row, height * scale + 1)
+        worksheet.set_row_pixels(
+            row, height * scale + 1
+        )  # +1 increase height of cell by one pixel to not overlap logo
         worksheet.merge_range("A1:C1", "", merge_format_default)
 
         worksheet.insert_image(
@@ -326,8 +328,10 @@ def to_xlsx(
                     with Image.open(img_data) as img:
                         width, height = img.size
                         ratios = (
-                            float(IMAGE_COLUMN_WIDTH - 1) / width,
-                            float(DEFAULT_CELL_HEIGHT - 1) / height,
+                            float(IMAGE_COLUMN_WIDTH - 1)
+                            / width,  # -1 decrease width by one pixel to not overlap with cell delimiter
+                            float(DEFAULT_CELL_HEIGHT - 1)
+                            / height,  # -1 decrease height by one pixel to not overlap with cell delimiter
                         )
                         scale = min(ratios)
                         worksheet.insert_image(
@@ -338,8 +342,8 @@ def to_xlsx(
                                 "image_data": img_data,
                                 "x_scale": scale,
                                 "y_scale": scale,
-                                "x_offset": 1,
-                                "y_offset": 1,
+                                "x_offset": 1,  # Offset image to avoid overlap with cell delimter
+                                "y_offset": 1,  # Offset image to avoid overlap with cell delimter
                             },
                         )
             worksheet.write(row, 4, "", base_fmt)

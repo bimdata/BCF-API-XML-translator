@@ -61,7 +61,6 @@ class TestExportBcfXls:
             )
             with open("test_bcf_export.xlsx", "wb") as f:
                 f.write(data.getvalue())
-        # assert False
 
 
 if __name__ == "__main__":

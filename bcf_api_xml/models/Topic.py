@@ -45,6 +45,7 @@ def to_python(xml):
         "title": xml.find("Title").text,
         "topic_type": xml.get("TopicType"),
         "topic_status": xml.get("TopicStatus"),
+        "stage": xml.get("Stage"),
     }
 
     if (

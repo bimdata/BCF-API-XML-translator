@@ -1,6 +1,7 @@
 import io
 import os
 import zipfile
+from unicodedata import category
 
 from lxml import etree
 
@@ -9,6 +10,10 @@ from bcf_api_xml.models import Comment
 from bcf_api_xml.models import Topic
 from bcf_api_xml.models import Viewpoint
 from bcf_api_xml.models import VisualizationInfo
+
+
+def remove_control_characters(string):
+    return "".join(char for char in string.decode() if category(char)[0] != "C").encode()
 
 
 def check_bcf_version(file):
@@ -42,7 +47,7 @@ def to_json(bcf_file):
                 markup = file.filename
                 topic_directory = os.path.dirname(file.filename) + "/"
 
-                root = etree.fromstring(zip_ref.read(markup))
+                root = etree.fromstring(remove_control_characters(zip_ref.read(markup)))
                 xml_topic = root.find("Topic")
                 topic = Topic.to_python(xml_topic)
                 topic["comments"] = [
@@ -64,6 +69,7 @@ def to_json(bcf_file):
                             "snapshot_data": file,
                         }
                     if filename := viewpoint.pop("viewpoint_filename", None):
+                        # We're not cleaning viewpoint xml because it is slow and we didn't see any problem here
                         xml = etree.fromstring(zip_ref.read(topic_directory + filename))
                         viewpoint.update(**VisualizationInfo.to_python(xml))
                 topic["viewpoints"] = viewpoints

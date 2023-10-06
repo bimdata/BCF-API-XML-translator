@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bcf-api-xml"
-version = "0.4.9"
+version = "0.4.10"
 description = "Convert BCF-API to BCF-XML"
 authors = ["Hugo Duroux <hugo@bimdata.io>"]
 license = "MIT"
@@ -14,7 +14,7 @@ lxml = "^4.5.0"
 generateDS = "^2.35.13"
 python-dateutil = "^2.8.0"
 xlsxwriter = "^3.1.2"
-pillow = "^10.0.0"
+pillow = "^10.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.1"

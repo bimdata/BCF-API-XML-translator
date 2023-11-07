@@ -8,7 +8,7 @@ from dateutil import parser
 from PIL import Image
 
 
-XLS_HEADER_TRANSLATIONS = {
+HEADER_TRANSLATIONS = {
     "en": {
         "index": "Index",
         "creation_date": "Date",
@@ -105,7 +105,7 @@ def to_xlsx(
         header_fmt2 = workbook.add_format({"border": 1})
         base_fm_align = workbook.add_format({"align": "center", "valign": "top"})
 
-        headers = XLS_HEADER_TRANSLATIONS[lang]
+        headers = HEADER_TRANSLATIONS[lang]
 
         # Company Logo followed by date, espace, space, models
         row = 0
@@ -234,7 +234,7 @@ def to_xlsx(
             worksheet.write(row, PRIORITY_COL_INDEX, topic.get("priority"), base_fmt)
 
             concatenated_tags = ", ".join(topic.get("labels", []))
-            print(concatenated_tags)
+
             worksheet.write(row, TAGS_COL_INDEX, concatenated_tags, base_fmt)
 
             concatenated_comments = ""

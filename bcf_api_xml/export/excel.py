@@ -208,6 +208,8 @@ def to_xlsx(
         worksheet.set_column_pixels(11, 11, 200)
         row += 1
 
+        # Sort topic by index
+        topics = sorted(topics, key=lambda k: k.get("index"))
         # Create topic rows
         for topic in topics:
             topic_guid = topic["guid"]
@@ -278,8 +280,8 @@ def to_xlsx(
                                 "image_data": img_data,
                                 "x_scale": scale,
                                 "y_scale": scale,
-                                "x_offset": 1,  # Offset image to avoid overlap with cell delimter
-                                "y_offset": 1,  # Offset image to avoid overlap with cell delimter
+                                "x_offset": 1,  # Offset image to avoid overlap with cell delimtier
+                                "y_offset": 1,  # Offset image to avoid overlap with cell delimiter
                             },
                         )
             worksheet.write(row, VIEWPOINT_COL_INDEX, "", base_fmt)

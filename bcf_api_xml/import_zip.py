@@ -20,9 +20,9 @@ def check_bcf_version(file):
     bcf_version_tree = etree.parse(file)
     root = bcf_version_tree.getroot()
     version = root.get("VersionId")
-    if version != "2.1":
+    if version not in ["2.1", "2.0"]:
         raise UnsupportedBCFVersion(
-            f"version {version} is not supported. Only BCF 2.1 is supported"
+            f"version {version} is not supported. Only BCF 2.x is supported"
         )
 
 
@@ -33,7 +33,7 @@ def to_json(bcf_file):
                 check_bcf_version(version_file)
         except KeyError:
             raise UnsupportedBCFVersion(
-                "Unable to check version. It's probably an oudated version. Only BCF 2.1 is supported"
+                "Unable to check version. Only BCF 2.x is supported"
             )
         files = zip_ref.infolist()
         files_names = zip_ref.namelist()

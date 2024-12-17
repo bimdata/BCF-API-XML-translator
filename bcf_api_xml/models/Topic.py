@@ -83,4 +83,7 @@ def to_python(xml):
     if (description := xml.find("Description")) is not None and description.text is not None:
         topic["description"] = description.text
 
+    if (labels := xml.find("Labels")) is not None and labels.text is not None:
+        topic["labels"] = labels.text
+
     return topic

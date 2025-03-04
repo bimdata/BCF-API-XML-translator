@@ -27,6 +27,8 @@ pre-commit install
 ```
 
 # Publish new version
+Update version number in `pyproject.toml` and `bcf_api_xml/__init__.py` then
+
 ```bash
 poetry publish --build --username= --password=
 ```

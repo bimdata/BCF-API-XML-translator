@@ -17,6 +17,7 @@
     "topic_status": "NEGATIVE",
     "stage": "EXE",
     "priority": "LOW",
+    "models": ["19 rue marc antoine petit.ifc"],
     "index": 58
   },
   {
@@ -28,6 +29,7 @@
     "modified_date":"2021-04-16T12:37:29.927491Z",
     "modified_author":"user01@test.com",
     "index":14,
+    "models": ["elec.ifc", "arci.ifc"],
     "project":756
   },
   {
@@ -79,6 +81,7 @@
     "description":"",
     "due_date":"2023-10-12T00:00:00Z",
     "index":25,
+    "models": ["19 rue marc antoine petit.ifc", "another_long_model_name.ifc"],
     "project":756
   },
   {

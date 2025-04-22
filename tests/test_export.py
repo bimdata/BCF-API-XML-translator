@@ -58,6 +58,8 @@ class TestExportBcfXls:
                 comments,
                 viewpoints,
                 company_logo_content.read(),
+                sheetname="My project",
+                lang="fr",
             )
             with open("test_bcf_export.xlsx", "wb") as f:
                 f.write(data.getvalue())

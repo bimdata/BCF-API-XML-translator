@@ -1,11 +1,16 @@
 import base64
 import io
+import string
 from datetime import datetime
 
 import requests
 import xlsxwriter
 from dateutil import parser
 from PIL import Image
+
+
+def col_to_letter(index):
+    return string.ascii_uppercase[index]
 
 
 HEADER_TRANSLATIONS = {
@@ -15,14 +20,15 @@ HEADER_TRANSLATIONS = {
         "author": "Author",
         "assigned_to": "Assigned to",
         "title": "Title",
-        "description": "Description of the problem",
+        "description": "Description",
         "due_date": "Due date",
+        "stage": "Stage",
         "status": "Status",
         "priority": "Priority",
-        "tags": "Tags",
+        "tags": "Labels",
         "comments": "Comments",
         "viewpoint": "Image",
-        "models": "Name of model",
+        "models": "Models",
         "space": "Organisation",
         "project": "Project",
     },
@@ -32,14 +38,15 @@ HEADER_TRANSLATIONS = {
         "author": "Auteur",
         "assigned_to": "Assigné à",
         "title": "Titre",
-        "description": "Description du problème",
+        "description": "Description",
         "due_date": "Date d'échéance",
+        "stage": "Phase",
         "status": "Statut",
         "priority": "Priorité",
         "tags": "Tags",
-        "comments": "Commentaire du problème",
+        "comments": "Commentaires",
         "viewpoint": "Image",
-        "models": "Nom du modèle",
+        "models": "Maquettes",
         "space": "Organisation",
         "project": "Project",
     },
@@ -53,14 +60,27 @@ TITLE_COL_INDEX = 4
 VIEWPOINT_COL_INDEX = 5
 DESCRIPTION_COL_INDEX = 6
 DUE_DATE_COL_INDEX = 7
-STATUS_COL_INDEX = 8
-PRIORITY_COL_INDEX = 9
-TAGS_COL_INDEX = 10
-COMMENTS_COL_INDEX = 11
+STAGE_COL_INDEX = 8
+STATUS_COL_INDEX = 9
+PRIORITY_COL_INDEX = 10
+LABELS_COL_INDEX = 11
+COMMENTS_COL_INDEX = 12
+MODELS_COL_INDEX = 13
+
+LAST_USED_COL_INDEX = MODELS_COL_INDEX
+LAST_USED_COL_LETTER = col_to_letter(LAST_USED_COL_INDEX)
 
 
 def to_xlsx(
-    space, project, models, topics, comments, viewpoints, company_logo_content, lang="en"
+    space,
+    project,
+    models,
+    topics,
+    comments,
+    viewpoints,
+    company_logo_content,
+    lang="en",
+    sheetname=None,
 ):
     """
     topics: list of topics (dict parsed from BCF-API json)
@@ -69,7 +89,10 @@ def to_xlsx(
     """
     xls_file = io.BytesIO()
     with xlsxwriter.Workbook(xls_file, options={"remove_timezone": True}) as workbook:
-        worksheet = workbook.add_worksheet()
+        if sheetname:
+            worksheet = workbook.add_worksheet(sheetname)
+        else:
+            worksheet = workbook.add_worksheet()
 
         # Set default height for tables
         DEFAULT_CELL_HEIGHT = 220
@@ -86,22 +109,30 @@ def to_xlsx(
 
         # Set image cell width
         IMAGE_COLUMN_WIDTH = 220
-        worksheet.set_column_pixels(VIEWPOINT_COL_INDEX, VIEWPOINT_COL_INDEX, IMAGE_COLUMN_WIDTH)
+        worksheet.set_column_pixels(
+            VIEWPOINT_COL_INDEX, VIEWPOINT_COL_INDEX, IMAGE_COLUMN_WIDTH
+        )
 
         header_fmt = workbook.add_format(
-            {"align": "center", "bold": True, "bg_color": "#C0C0C0", "border": 1}
+            {
+                "valign": "vcenter",
+                "align": "center",
+                "bold": True,
+                "bg_color": "#C0C0C0",
+                "border": 1,
+            }
         )
         base_fmt = workbook.add_format({"valign": "top", "border": 1})
         if lang == "fr":
             date_fmt = workbook.add_format(
-                {"valign": "top", "num_format": "dd/mm/yyyy", "border": 1}
+                {"align": "left", "valign": "top", "num_format": "dd/mm/yyyy", "border": 1}
             )
         else:
             date_fmt = workbook.add_format(
-                {"valign": "top", "num_format": "yyyy-mm-dd", "border": 1}
+                {"align": "left", "valign": "top", "num_format": "yyyy-mm-dd", "border": 1}
             )
 
-        comments_fmt = workbook.add_format({"valign": "top", "text_wrap": True, "border": 1})
+        text_wrap_fmt = workbook.add_format({"valign": "top", "text_wrap": True, "border": 1})
         header_fmt2 = workbook.add_format({"border": 1})
         base_fm_align = workbook.add_format({"align": "center", "valign": "top"})
 
@@ -152,31 +183,29 @@ def to_xlsx(
             },
         )
 
-        worksheet.merge_range("D1:Z1", "", merge_format_gray)
+        worksheet.merge_range(f"D1:{LAST_USED_COL_LETTER}1", "", merge_format_gray)
         row += 1
         worksheet.set_row(row, 20)
-        worksheet.merge_range("A2:Z2", "", merge_format_default)
+        worksheet.merge_range(f"A2:{LAST_USED_COL_LETTER}2", "", merge_format_default)
         row += 1
         worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A3:B3", "", merge_format_default)
         worksheet.write(row, 0, headers["project"], header_fmt)
-        worksheet.merge_range("C3:Z3", "", merge_format_default)
+        worksheet.merge_range(f"C3:{LAST_USED_COL_LETTER}3", "", merge_format_default)
         worksheet.write(row, 2, project["name"], header_fmt2)
-
-        # TODO: add spreadsheet metadata for models
 
         row += 1
         worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A4:B4", "", merge_format_default)
         worksheet.write(row, 0, headers["space"], header_fmt)
-        worksheet.merge_range("C4:Z4", "", merge_format_default)
+        worksheet.merge_range(f"C4:{LAST_USED_COL_LETTER}4", "", merge_format_default)
         worksheet.write(row, 2, space["name"], header_fmt2)
 
         row += 1
         worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A5:B5", "", merge_format_default)
         worksheet.write(row, 0, "Date", header_fmt)
-        worksheet.merge_range("C5:Z5", "", merge_format_default)
+        worksheet.merge_range(f"C5:{LAST_USED_COL_LETTER}5", "", merge_format_default)
         if lang == "fr":
             current_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
         else:
@@ -185,7 +214,7 @@ def to_xlsx(
 
         row += 1
         worksheet.set_row(row, 20)
-        worksheet.merge_range("A6:Z6", "", merge_format_default)
+        worksheet.merge_range(f"A6:{LAST_USED_COL_LETTER}6", "", merge_format_default)
         row += 1
 
         # Set topic row height
@@ -194,18 +223,21 @@ def to_xlsx(
         # Create table header
         worksheet.write(row, INDEX_COL_INDEX, headers["index"], header_fmt)
         worksheet.write(row, CREATION_DATE_COL_INDEX, headers["creation_date"], header_fmt)
+        worksheet.set_column_pixels(CREATION_DATE_COL_INDEX, CREATION_DATE_COL_INDEX, 100)
         worksheet.write(row, AUTHOR_COL_INDEX, headers["author"], header_fmt)
         worksheet.write(row, ASSIGNED_TO_COL_INDEX, headers["assigned_to"], header_fmt)
         worksheet.write(row, TITLE_COL_INDEX, headers["title"], header_fmt)
         worksheet.write(row, VIEWPOINT_COL_INDEX, headers["viewpoint"], header_fmt)
         worksheet.write(row, DESCRIPTION_COL_INDEX, headers["description"], header_fmt)
         worksheet.write(row, DUE_DATE_COL_INDEX, headers["due_date"], header_fmt)
+        worksheet.write(row, STAGE_COL_INDEX, headers["stage"], header_fmt)
         worksheet.write(row, STATUS_COL_INDEX, headers["status"], header_fmt)
         worksheet.write(row, PRIORITY_COL_INDEX, headers["priority"], header_fmt)
-        worksheet.write(row, TAGS_COL_INDEX, headers["tags"], header_fmt)
+        worksheet.write(row, LABELS_COL_INDEX, headers["tags"], header_fmt)
         worksheet.write(row, COMMENTS_COL_INDEX, headers["comments"], header_fmt)
-        worksheet.set_column_pixels(10, 10, 100)
-        worksheet.set_column_pixels(11, 11, 200)
+        worksheet.set_column_pixels(LABELS_COL_INDEX, LABELS_COL_INDEX, 100)
+        worksheet.set_column_pixels(COMMENTS_COL_INDEX, COMMENTS_COL_INDEX, 200)
+        worksheet.write(row, MODELS_COL_INDEX, headers["models"], header_fmt)
         row += 1
 
         # Sort topic by index
@@ -232,12 +264,13 @@ def to_xlsx(
                 worksheet.write_datetime(row, DUE_DATE_COL_INDEX, due_date, date_fmt)
             else:
                 worksheet.write(row, DUE_DATE_COL_INDEX, "", base_fmt)
+            worksheet.write(row, STAGE_COL_INDEX, topic.get("stage"), base_fmt)
             worksheet.write(row, STATUS_COL_INDEX, topic.get("topic_status"), base_fmt)
             worksheet.write(row, PRIORITY_COL_INDEX, topic.get("priority"), base_fmt)
 
-            concatenated_tags = ", ".join(topic.get("labels", []))
+            concatenated_labels = ", ".join(topic.get("labels", []))
 
-            worksheet.write(row, TAGS_COL_INDEX, concatenated_tags, base_fmt)
+            worksheet.write(row, LABELS_COL_INDEX, concatenated_labels, base_fmt)
 
             concatenated_comments = ""
 
@@ -250,7 +283,11 @@ def to_xlsx(
                 concatenated_comments += (
                     f"[{comment_date}] {comment['author']}: {comment['comment']}\n"
                 )
-            worksheet.write(row, COMMENTS_COL_INDEX, concatenated_comments, comments_fmt)
+            worksheet.write(row, COMMENTS_COL_INDEX, concatenated_comments, text_wrap_fmt)
+
+            concatenated_models = "\n".join(topic.get("models", []))
+
+            worksheet.write(row, MODELS_COL_INDEX, concatenated_models, text_wrap_fmt)
 
             if len(topic_viewpoints):
                 viewpoint = topic_viewpoints[0]
@@ -287,7 +324,7 @@ def to_xlsx(
             worksheet.write(row, VIEWPOINT_COL_INDEX, "", base_fmt)
 
             row += 1
-        worksheet.set_column("M:Z", None, None, {"hidden": True})
+
         worksheet.set_default_row(hide_unused_rows=True)
 
         worksheet.autofit()

@@ -31,6 +31,7 @@ HEADER_TRANSLATIONS = {
         "models": "Models",
         "space": "Organisation",
         "project": "Project",
+        "sheetname": "BCF list",
     },
     "fr": {
         "index": "N°",
@@ -49,6 +50,7 @@ HEADER_TRANSLATIONS = {
         "models": "Maquettes",
         "space": "Organisation",
         "project": "Project",
+        "sheetname": "Liste des BCF",
     },
 }
 
@@ -87,12 +89,14 @@ def to_xlsx(
     comments: dict(topics_guid=[comment])
     viewpoints: dict(topics_guid=[viewpoint])
     """
+    headers = HEADER_TRANSLATIONS[lang]
+
     xls_file = io.BytesIO()
     with xlsxwriter.Workbook(xls_file, options={"remove_timezone": True}) as workbook:
         if sheetname:
             worksheet = workbook.add_worksheet(sheetname)
         else:
-            worksheet = workbook.add_worksheet()
+            worksheet = workbook.add_worksheet(headers["sheetname"])
 
         # Set default height for tables
         DEFAULT_CELL_HEIGHT = 220
@@ -135,8 +139,6 @@ def to_xlsx(
         text_wrap_fmt = workbook.add_format({"valign": "top", "text_wrap": True, "border": 1})
         header_fmt2 = workbook.add_format({"border": 1})
         base_fm_align = workbook.add_format({"align": "center", "valign": "top"})
-
-        headers = HEADER_TRANSLATIONS[lang]
 
         # Company Logo followed by date, espace, space, models
         row = 0

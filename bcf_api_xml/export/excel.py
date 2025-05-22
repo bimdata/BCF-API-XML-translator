@@ -13,7 +13,7 @@ def col_to_letter(index):
     return string.ascii_uppercase[index]
 
 
-HEADER_TRANSLATIONS = {
+I18N_TRANSLATIONS = {
     "en": {
         "index": "Index",
         "creation_date": "Date",
@@ -49,7 +49,7 @@ HEADER_TRANSLATIONS = {
         "viewpoint": "Image",
         "models": "Maquettes",
         "space": "Organisation",
-        "project": "Project",
+        "project": "Projet",
         "sheetname": "Liste des BCF",
     },
 }
@@ -89,14 +89,14 @@ def to_xlsx(
     comments: dict(topics_guid=[comment])
     viewpoints: dict(topics_guid=[viewpoint])
     """
-    headers = HEADER_TRANSLATIONS[lang]
+    i18n = I18N_TRANSLATIONS[lang]
 
     xls_file = io.BytesIO()
     with xlsxwriter.Workbook(xls_file, options={"remove_timezone": True}) as workbook:
         if sheetname:
             worksheet = workbook.add_worksheet(sheetname)
         else:
-            worksheet = workbook.add_worksheet(headers["sheetname"])
+            worksheet = workbook.add_worksheet(i18n["sheetname"])
 
         # Set default height for tables
         DEFAULT_CELL_HEIGHT = 220
@@ -192,14 +192,14 @@ def to_xlsx(
         row += 1
         worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A3:B3", "", merge_format_default)
-        worksheet.write(row, 0, headers["project"], header_fmt)
+        worksheet.write(row, 0, i18n["project"], header_fmt)
         worksheet.merge_range(f"C3:{LAST_USED_COL_LETTER}3", "", merge_format_default)
         worksheet.write(row, 2, project["name"], header_fmt2)
 
         row += 1
         worksheet.set_row_pixels(row, ROW_HEIGHT)
         worksheet.merge_range("A4:B4", "", merge_format_default)
-        worksheet.write(row, 0, headers["space"], header_fmt)
+        worksheet.write(row, 0, i18n["space"], header_fmt)
         worksheet.merge_range(f"C4:{LAST_USED_COL_LETTER}4", "", merge_format_default)
         worksheet.write(row, 2, space["name"], header_fmt2)
 
@@ -223,23 +223,23 @@ def to_xlsx(
         worksheet.set_row(row, TABLE_HEADER_HEIGHT)
 
         # Create table header
-        worksheet.write(row, INDEX_COL_INDEX, headers["index"], header_fmt)
-        worksheet.write(row, CREATION_DATE_COL_INDEX, headers["creation_date"], header_fmt)
+        worksheet.write(row, INDEX_COL_INDEX, i18n["index"], header_fmt)
+        worksheet.write(row, CREATION_DATE_COL_INDEX, i18n["creation_date"], header_fmt)
         worksheet.set_column_pixels(CREATION_DATE_COL_INDEX, CREATION_DATE_COL_INDEX, 100)
-        worksheet.write(row, AUTHOR_COL_INDEX, headers["author"], header_fmt)
-        worksheet.write(row, ASSIGNED_TO_COL_INDEX, headers["assigned_to"], header_fmt)
-        worksheet.write(row, TITLE_COL_INDEX, headers["title"], header_fmt)
-        worksheet.write(row, VIEWPOINT_COL_INDEX, headers["viewpoint"], header_fmt)
-        worksheet.write(row, DESCRIPTION_COL_INDEX, headers["description"], header_fmt)
-        worksheet.write(row, DUE_DATE_COL_INDEX, headers["due_date"], header_fmt)
-        worksheet.write(row, STAGE_COL_INDEX, headers["stage"], header_fmt)
-        worksheet.write(row, STATUS_COL_INDEX, headers["status"], header_fmt)
-        worksheet.write(row, PRIORITY_COL_INDEX, headers["priority"], header_fmt)
-        worksheet.write(row, LABELS_COL_INDEX, headers["tags"], header_fmt)
-        worksheet.write(row, COMMENTS_COL_INDEX, headers["comments"], header_fmt)
+        worksheet.write(row, AUTHOR_COL_INDEX, i18n["author"], header_fmt)
+        worksheet.write(row, ASSIGNED_TO_COL_INDEX, i18n["assigned_to"], header_fmt)
+        worksheet.write(row, TITLE_COL_INDEX, i18n["title"], header_fmt)
+        worksheet.write(row, VIEWPOINT_COL_INDEX, i18n["viewpoint"], header_fmt)
+        worksheet.write(row, DESCRIPTION_COL_INDEX, i18n["description"], header_fmt)
+        worksheet.write(row, DUE_DATE_COL_INDEX, i18n["due_date"], header_fmt)
+        worksheet.write(row, STAGE_COL_INDEX, i18n["stage"], header_fmt)
+        worksheet.write(row, STATUS_COL_INDEX, i18n["status"], header_fmt)
+        worksheet.write(row, PRIORITY_COL_INDEX, i18n["priority"], header_fmt)
+        worksheet.write(row, LABELS_COL_INDEX, i18n["tags"], header_fmt)
+        worksheet.write(row, COMMENTS_COL_INDEX, i18n["comments"], header_fmt)
         worksheet.set_column_pixels(LABELS_COL_INDEX, LABELS_COL_INDEX, 100)
         worksheet.set_column_pixels(COMMENTS_COL_INDEX, COMMENTS_COL_INDEX, 200)
-        worksheet.write(row, MODELS_COL_INDEX, headers["models"], header_fmt)
+        worksheet.write(row, MODELS_COL_INDEX, i18n["models"], header_fmt)
         row += 1
 
         # Sort topic by index

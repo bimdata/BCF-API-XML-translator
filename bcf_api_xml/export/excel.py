@@ -283,7 +283,7 @@ def to_xlsx(
                 else:
                     comment_date = comment_date.strftime("%Y-%m-%d, %H:%M:%S")
                 concatenated_comments += (
-                    f"[{comment_date}] {comment['author']}: {comment['comment']}\n"
+                    f"[{comment_date}] {comment.get('author')}: {comment.get('comment')}\n"
                 )
             worksheet.write(row, COMMENTS_COL_INDEX, concatenated_comments, text_wrap_fmt)
 

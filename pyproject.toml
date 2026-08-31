@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bcf-api-xml"
-version = "0.4.19"
+version = "0.4.20"
 description = "Convert BCF-API to BCF-XML"
 authors = ["Hugo Duroux <hugo@bimdata.io>"]
 license = "MIT"
@@ -10,19 +10,19 @@ repository = "https://github.com/bimdata/BCF-API-XML-translator"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-lxml = "^5.3.1"
+lxml = "^6.1.2"
 generateDS = "^2.35.13"
 python-dateutil = "^2.8.0"
-xlsxwriter = "^3.2.2"
-pillow = "^11.1.0"
+xlsxwriter = "^3.2.9"
+pillow = "^12.3.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^8.3.5"
-black = "^25.1.0"
-pre-commit = "^4.1.0"
-reorder-python-imports = "^3.8.2"
-pyflakes = "^3.2.0"
-pycodestyle = "2.12.1"
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.1.1"
+black = "^26.5.1"
+pre-commit = "^4.6.2"
+reorder-python-imports = "^3.17.0"
+pyflakes = "^3.4.0"
+pycodestyle = "^2.14.0"
 
 
 [tool.black]
